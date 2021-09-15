@@ -39,8 +39,8 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -83,14 +83,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonFunc.cs" />
     <Compile Include="Exercise.cs" />
     <Compile Include="ExercisesType.cs" />
+    <Compile Include="FastTrainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FastTrainForm.Designer.cs">
+      <DependentUpon>FastTrainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileProvider.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SetNewProgramForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SetNewProgramForm.Designer.cs">
       <DependentUpon>SetNewProgramForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WarmUpForm.cs">
       <SubType>Form</SubType>
@@ -109,11 +127,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="SaveNewExerciseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,8 +141,14 @@
     </Compile>
     <Compile Include="TrainCommon.cs" />
     <Compile Include="TrainDay.cs" />
+    <EmbeddedResource Include="FastTrainForm.resx">
+      <DependentUpon>FastTrainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SetNewProgramForm.resx">
       <DependentUpon>SetNewProgramForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WarmUpForm.resx">
       <DependentUpon>WarmUpForm.cs</DependentUpon>
@@ -170,13 +189,13 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\Background\TrainHard.jpg" />
+    <None Include="bin\Debug\Background\TrainHard2.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\Background\Fire.gif" />
+    <None Include="bin\Debug\Background\chalenge_accepted.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\Background\Fire1.gif" />
+    <None Include="bin\Debug\Background\cup.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace TrainWindowsFormsApp
 {
@@ -9,108 +10,66 @@ namespace TrainWindowsFormsApp
         private static int progress;
         public static List<int> indentBetweenExercises;
 
-        private static int count;
-
-
-        private static List<ExercisesType> startMuscles = new List<ExercisesType>()
+        private static List<ExercisesType> GetChestTrain()
         {
-            ExercisesType.Triceps,
-            ExercisesType.Biceps,
-            ExercisesType.O_Legs,
-        };
+            indentBetweenExercises = new List<int>(){ 2, 4 };
 
-        private static List<ExercisesType>  mainMuscles = new List<ExercisesType>()
+            List<ExercisesType> train = new List<ExercisesType>();
+            List<ExercisesType> addMuscles = new List<ExercisesType>() { ExercisesType.DeltoidMid, ExercisesType.DeltoidRear };
+
+            for (int i = 0; i < 2; i++)
+            {
+                train.Add(ExercisesType.ChestIsol);
+                train.Add(ExercisesType.ChestBase);
+                train.Add(addMuscles[progress % addMuscles.Count]);
+            }
+
+
+            return train;
+        }
+
+        private static List<ExercisesType> GetCoreTrain()
         {
-            ExercisesType.D_Chest,
-            ExercisesType.D_Latissimus,
-            ExercisesType.D_Legs,
+            indentBetweenExercises = new List<int>() { 2, };
+            List<ExercisesType> train = new List<ExercisesType>();
 
-            ExercisesType.O_Chest,
-            ExercisesType.O_Latissimus,
-            ExercisesType.O_Legs,
-        };
+            for (int i = 0; i < 2; i++)
+            {
+                train.Add(ExercisesType.Core);
+                train.Add(ExercisesType.BackExtensor);
+            }
+            return train;
+        }
 
-        private static List<ExercisesType> otherMuscles = new List<ExercisesType>()
+        private static List<ExercisesType> GetLegsTrain()
         {
-            ExercisesType.D_DeltoidFront,
-            ExercisesType.D_DeltoidMid,
-            ExercisesType.Neck,
+            indentBetweenExercises = new List<int>() { 2, 4 };
+            List<ExercisesType> train = new List<ExercisesType>();
 
-            ExercisesType.D_Trapezius,
-            ExercisesType.D_DeltoidRear,
-            ExercisesType.Neck,
+            for (int i = 0; i < 2; i++)
+            {
+                train.Add(ExercisesType.Calf);
+                train.Add(ExercisesType.Quads);
+            }
+            train.Insert(1, ExercisesType.HipBiceps);
+            train.Insert(5, ExercisesType.Shin);
 
-            ExercisesType.O_DeltoidFront,
-            ExercisesType.O_DeltoidMid,
-            ExercisesType.Neck,
-
-            ExercisesType.O_Trapezius,
-            ExercisesType.O_DeltoidRear,
-            ExercisesType.Neck,
-        };
-
-        private static List<ExercisesType> extraMuscles = new List<ExercisesType>()
-        {
-            ExercisesType.D_Calf,
-            ExercisesType.D_Core,
-            ExercisesType.Forearm,
-
-            ExercisesType.O_Calf,
-            ExercisesType.O_Core,
-            ExercisesType.Forearm,
-        };
-
-        private static int ChooseIndexMuscles()
-        {
-            var num = progress % count;
-            return num;
+            return train;
         }
 
         public static List<ExercisesType> GetTrain(int _progress)
         {
-            indentBetweenExercises = new List<int>() { 1, 4};
-
             progress = _progress;
 
-            var regularTrain = new List<ExercisesType>();
-
-            count = startMuscles.Count();
-            var index = ChooseIndexMuscles();
-            regularTrain.Add(startMuscles[index]);
-
-            regularTrain.Add(mainMuscles[index]);
-
-            regularTrain.Add(extraMuscles[index]);
-
-            count = otherMuscles.Count() / 2;
-            index = ChooseIndexMuscles();
-            regularTrain.Insert(3, otherMuscles[index]);
-
-            return regularTrain;
-        }
-
-        public static List<ExercisesType> GetAdditional()
-        {
-            indentBetweenExercises = new List<int>() { 1, 2, 3, 4};
-
-            var additionalTrain = new List<ExercisesType>();
-
-            count = startMuscles.Count();
-            var index = ChooseIndexMuscles();
-            additionalTrain.Add(startMuscles[index]);
-
-            additionalTrain.Add(extraMuscles[index + count]);
-
-            additionalTrain.Add(mainMuscles[index + count]);
-
-            additionalTrain.Add(extraMuscles[index + count]);
-
-            count = otherMuscles.Count() / 2;
-            index = ChooseIndexMuscles();
-
-            additionalTrain.Add(otherMuscles[index]);
-
-            return additionalTrain;
+            switch (progress % 4)
+            {
+                case (0):
+                    return GetChestTrain();
+                case (1):
+                    return GetCoreTrain();
+                default:
+                    return GetLegsTrain();
+            }            
         }
 
         public static List<ExercisesType> GetWarmUpList()

@@ -39,22 +39,25 @@
             this.exitButton = new System.Windows.Forms.Button();
             this.maxRepeatTextBox = new System.Windows.Forms.TextBox();
             this.exerciseBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.exerciseBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // textTextBox
             // 
             this.textTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textTextBox.Location = new System.Drawing.Point(340, 406);
+            this.textTextBox.Location = new System.Drawing.Point(339, 355);
             this.textTextBox.Name = "textTextBox";
             this.textTextBox.Size = new System.Drawing.Size(1200, 53);
             this.textTextBox.TabIndex = 0;
+            this.textTextBox.Text = "Введи название упражнения";
             this.textTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // repeatTextBox
             // 
             this.repeatTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.repeatTextBox.Location = new System.Drawing.Point(844, 485);
+            this.repeatTextBox.Location = new System.Drawing.Point(838, 566);
             this.repeatTextBox.Name = "repeatTextBox";
             this.repeatTextBox.Size = new System.Drawing.Size(100, 53);
             this.repeatTextBox.TabIndex = 0;
@@ -63,19 +66,21 @@
             // loadTextBox
             // 
             this.loadTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loadTextBox.Location = new System.Drawing.Point(490, 564);
+            this.loadTextBox.Location = new System.Drawing.Point(484, 645);
             this.loadTextBox.Name = "loadTextBox";
             this.loadTextBox.Size = new System.Drawing.Size(900, 53);
             this.loadTextBox.TabIndex = 0;
+            this.loadTextBox.Text = "Какая нагрузка";
             this.loadTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // remarkTextBox
             // 
             this.remarkTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.remarkTextBox.Location = new System.Drawing.Point(290, 656);
+            this.remarkTextBox.Location = new System.Drawing.Point(284, 737);
             this.remarkTextBox.Name = "remarkTextBox";
             this.remarkTextBox.Size = new System.Drawing.Size(1300, 53);
             this.remarkTextBox.TabIndex = 0;
+            this.remarkTextBox.Text = "Введи примечание к упражнению";
             this.remarkTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
@@ -105,7 +110,7 @@
             // saveButton
             // 
             this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.saveButton.Location = new System.Drawing.Point(635, 799);
+            this.saveButton.Location = new System.Drawing.Point(629, 880);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(150, 100);
             this.saveButton.TabIndex = 3;
@@ -116,7 +121,7 @@
             // exitButton
             // 
             this.exitButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.exitButton.Location = new System.Drawing.Point(1102, 799);
+            this.exitButton.Location = new System.Drawing.Point(1096, 880);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(150, 100);
             this.exitButton.TabIndex = 4;
@@ -127,7 +132,7 @@
             // maxRepeatTextBox
             // 
             this.maxRepeatTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.maxRepeatTextBox.Location = new System.Drawing.Point(950, 485);
+            this.maxRepeatTextBox.Location = new System.Drawing.Point(944, 566);
             this.maxRepeatTextBox.Name = "maxRepeatTextBox";
             this.maxRepeatTextBox.Size = new System.Drawing.Size(100, 53);
             this.maxRepeatTextBox.TabIndex = 0;
@@ -137,11 +142,36 @@
             // 
             this.exerciseBindingSource.DataSource = typeof(TrainWindowsFormsApp.Exercise);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(404, 534);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(1117, 29);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Количество повторов и максимальных повторов для перехода к следующему уровню нагр" +
+    "узки";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox1.Location = new System.Drawing.Point(796, 451);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(321, 33);
+            this.checkBox1.TabIndex = 6;
+            this.checkBox1.Text = "Базовое ли упражнение";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // SaveNewExerciseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.exercisesTypeListBox);
@@ -173,5 +203,7 @@
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.TextBox maxRepeatTextBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

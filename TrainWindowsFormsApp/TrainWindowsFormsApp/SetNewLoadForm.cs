@@ -19,7 +19,7 @@ namespace TrainWindowsFormsApp
 
         private void SetNewLoadForm_Load(object sender, EventArgs e)
         {
-            currentExerciseLabel.Text = exercise.Text;
+            currentExerciseLabel.Text = exercise.Name;
             oldLoadLabel.Text = exercise.Load;
         }
 

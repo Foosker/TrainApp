@@ -11,6 +11,8 @@ namespace TrainWindowsFormsApp
 
         string pathToExerciseFile;
 
+        private bool isBase = false;
+
         public SaveNewExerciseForm()
         {
             InitializeComponent();
@@ -88,6 +90,7 @@ namespace TrainWindowsFormsApp
             if (IsValid())
             {
                 var newExercise = new Exercise(textTextBox.Text,                // Название
+                                            isBase,                             // Базовое или нет
                                             int.Parse(repeatTextBox.Text),      // Повторения
                                             int.Parse(maxRepeatTextBox.Text),   // Максимум повторений
                                             loadTextBox.Text,                   // Нагрузка
@@ -118,7 +121,7 @@ namespace TrainWindowsFormsApp
         {   // Проверка на отсутствие такого упражнения в списке
             foreach (var exercise in list)
             {
-                if (exercise.Text == newExercise.Text) return true;
+                if (exercise.Name == newExercise.Name) return true;
             }
             return false;
         }
@@ -131,6 +134,11 @@ namespace TrainWindowsFormsApp
         private void exitButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            isBase = !isBase;
         }
     }
 }

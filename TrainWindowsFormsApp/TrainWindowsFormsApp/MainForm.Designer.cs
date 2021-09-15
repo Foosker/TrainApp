@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(trainMainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.выходБезСохраненияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,7 +37,6 @@
             this.сохранитьНовоеУпражнениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заминкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьНовуюПрограммуТренировокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainTimer = new System.Windows.Forms.Timer(this.components);
             this.backgroundPictureBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureBox)).BeginInit();
@@ -127,10 +125,6 @@
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.Text = "Создать новую программу тренировок";
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.Click += new System.EventHandler(this.создатьНовуюПрограммуТренировокToolStripMenuItem_Click);
             // 
-            // mainTimer
-            // 
-            this.mainTimer.Tick += new System.EventHandler(this.mainTimer_Tick);
-            // 
             // backgroundPictureBox
             // 
             this.backgroundPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -176,7 +170,6 @@
         private System.Windows.Forms.ToolStripMenuItem закончитьТренировкуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem разминкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem мнеНехерДелатьToolStripMenuItem;
-        private System.Windows.Forms.Timer mainTimer;
         private System.Windows.Forms.PictureBox backgroundPictureBox;
         private System.Windows.Forms.ToolStripMenuItem заминкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem создатьНовуюПрограммуТренировокToolStripMenuItem;

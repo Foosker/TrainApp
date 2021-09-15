@@ -97,7 +97,7 @@ namespace TrainWindowsFormsApp
 
             foreach (var exercise in exercises)
             {
-                warmUp.Add(GetModifiers() + exercise.Text);
+                warmUp.Add(GetModifiers() + exercise.Name);
             }
             warmUpCount = warmUp.Count();
 
@@ -110,7 +110,7 @@ namespace TrainWindowsFormsApp
 
             foreach (var exercise in exercises)
             {
-                warmUp.Add(exercise.Text);
+                warmUp.Add(exercise.Name);
             }
             warmUpCount = warmUp.Count();
 

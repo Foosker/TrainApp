@@ -1,36 +1,28 @@
-﻿namespace TrainWindowsFormsApp
+﻿using System.Collections.Generic;
+
+namespace TrainWindowsFormsApp
 {
     public enum ExercisesType
     {
-        // Эти упражнения для разминки
         CombatArms,
         CombatLegs,
-
-        // Это двустороние упражнения
-        Forearm,
-        Neck,
-        D_Trapezius,
-        D_DeltoidFront,
-        D_DeltoidMid,
-        D_DeltoidRear,
-        D_Chest,
-        D_Latissimus,
-        D_Legs,
-        D_Calf,
-        D_Core,
-
-        // Одностороние
-        O_Trapezius,
-        O_DeltoidFront,
-        O_DeltoidMid,
-        O_DeltoidRear,
-        O_Chest, 
-        O_Latissimus,
-        O_Legs,
-        O_Calf,
-        O_Core,
-
+        
+        ChestBase,
+        ChestIsol,
+        Latissimus,
+        Scapula,
+        Trapezius,
+        DeltoidFront,
+        DeltoidMid,
+        DeltoidRear,
         Biceps,
         Triceps,
+        Forearm,
+        Quads,
+        HipBiceps,
+        Core,
+        BackExtensor,
+        Calf,
+        Shin,
     }
 }

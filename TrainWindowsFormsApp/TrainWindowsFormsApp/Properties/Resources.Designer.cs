@@ -63,9 +63,9 @@ namespace TrainWindowsFormsApp.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Fire {
+        internal static System.Drawing.Bitmap chalenge_accepted {
             get {
-                object obj = ResourceManager.GetObject("Fire", resourceCulture);
+                object obj = ResourceManager.GetObject("chalenge_accepted", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace TrainWindowsFormsApp.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TrainHard {
+        internal static System.Drawing.Bitmap cup {
             get {
-                object obj = ResourceManager.GetObject("TrainHard", resourceCulture);
+                object obj = ResourceManager.GetObject("cup", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace TrainWindowsFormsApp.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TrainHard1 {
+        internal static System.Drawing.Bitmap TrainHard11 {
             get {
-                object obj = ResourceManager.GetObject("TrainHard1", resourceCulture);
+                object obj = ResourceManager.GetObject("TrainHard11", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
