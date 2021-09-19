@@ -13,16 +13,15 @@ namespace TrainWindowsFormsApp
         private static List<ExercisesType> GetChestTrain()
         {
             indentBetweenExercises = new List<int>(){ 2, 4 };
-
             List<ExercisesType> train = new List<ExercisesType>();
-            List<ExercisesType> addMuscles = new List<ExercisesType>() { ExercisesType.DeltoidMid, ExercisesType.DeltoidRear };
 
             for (int i = 0; i < 2; i++)
             {
-                train.Add(ExercisesType.ChestIsol);
                 train.Add(ExercisesType.ChestBase);
-                train.Add(addMuscles[progress % addMuscles.Count]);
+                train.Add(ExercisesType.DeltoidMid);
             }
+            train.Add(ExercisesType.ChestIsol);
+            train.Add(ExercisesType.DeltoidFront);
             return train;
         }
 
@@ -39,6 +38,21 @@ namespace TrainWindowsFormsApp
             return train;
         }
 
+        private static List<ExercisesType> GetBackTrain()
+        {
+            indentBetweenExercises = new List<int>() { 2, 4 };
+            List<ExercisesType> train = new List<ExercisesType>();
+
+            for (int i = 0; i < 2; i++)
+            {
+                train.Add(ExercisesType.Latissimus);
+                train.Add(ExercisesType.DeltoidRear);
+            }
+            train.Add(ExercisesType.Scapula);
+            train.Add(ExercisesType.Biceps);
+            return train;
+        }
+
         private static List<ExercisesType> GetLegsTrain()
         {
             indentBetweenExercises = new List<int>() { 2, 4 };
@@ -49,9 +63,8 @@ namespace TrainWindowsFormsApp
                 train.Add(ExercisesType.Calf);
                 train.Add(ExercisesType.Quads);
             }
-            train.Insert(1, ExercisesType.HipBiceps);
-            train.Insert(5, ExercisesType.Shin);
-
+            train.Add(ExercisesType.HipBiceps);
+            train.Add(ExercisesType.Shin);
             return train;
         }
 
@@ -65,9 +78,11 @@ namespace TrainWindowsFormsApp
                     return GetChestTrain();
                 case (1):
                     return GetCoreTrain();
+                case (2):
+                    return GetBackTrain();
                 default:
                     return GetLegsTrain();
-            }            
+            }
         }
 
         public static List<ExercisesType> GetWarmUpList()

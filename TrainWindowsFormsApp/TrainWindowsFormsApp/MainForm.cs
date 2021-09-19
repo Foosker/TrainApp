@@ -264,6 +264,7 @@ namespace TrainWindowsFormsApp
 
         private void мнеНехерДелатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            TrainCommon.SaveProgress();
             TrainCommon.SaveTrainResults(exercises);
             Hide();
             var fastTrain = new FastTrainForm();
