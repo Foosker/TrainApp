@@ -1,6 +1,6 @@
 ﻿namespace TrainWindowsFormsApp
 {
-    partial class trainMainForm
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(trainMainForm));
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.backgroundPictureBox = new System.Windows.Forms.PictureBox();
             this.выходБезСохраненияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.закончитьТренировкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.мнеНехерДелатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,29 +37,22 @@
             this.сохранитьНовоеУпражнениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заминкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьНовуюПрограммуТренировокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backgroundPictureBox = new System.Windows.Forms.PictureBox();
-            this.menuStrip1.SuspendLayout();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureBox)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // backgroundPictureBox
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.Black;
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.выходБезСохраненияToolStripMenuItem,
-            this.закончитьТренировкуToolStripMenuItem,
-            this.мнеНехерДелатьToolStripMenuItem,
-            this.разминкаToolStripMenuItem,
-            this.сохранитьНовоеУпражнениеToolStripMenuItem,
-            this.заминкаToolStripMenuItem,
-            this.создатьНовуюПрограммуТренировокToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1920, 33);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.backgroundPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.backgroundPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.backgroundPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("backgroundPictureBox.Image")));
+            this.backgroundPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.backgroundPictureBox.Name = "backgroundPictureBox";
+            this.backgroundPictureBox.Size = new System.Drawing.Size(1920, 1080);
+            this.backgroundPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.backgroundPictureBox.TabIndex = 1;
+            this.backgroundPictureBox.TabStop = false;
             // 
             // выходБезСохраненияToolStripMenuItem
             // 
@@ -125,19 +118,27 @@
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.Text = "Создать новую программу тренировок";
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.Click += new System.EventHandler(this.создатьНовуюПрограммуТренировокToolStripMenuItem_Click);
             // 
-            // backgroundPictureBox
+            // menuStrip1
             // 
-            this.backgroundPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.backgroundPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.backgroundPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("backgroundPictureBox.Image")));
-            this.backgroundPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.backgroundPictureBox.Name = "backgroundPictureBox";
-            this.backgroundPictureBox.Size = new System.Drawing.Size(1920, 1080);
-            this.backgroundPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.backgroundPictureBox.TabIndex = 1;
-            this.backgroundPictureBox.TabStop = false;
+            this.menuStrip1.BackColor = System.Drawing.Color.Black;
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.выходБезСохраненияToolStripMenuItem,
+            this.закончитьТренировкуToolStripMenuItem,
+            this.мнеНехерДелатьToolStripMenuItem,
+            this.разминкаToolStripMenuItem,
+            this.сохранитьНовоеУпражнениеToolStripMenuItem,
+            this.заминкаToolStripMenuItem,
+            this.создатьНовуюПрограммуТренировокToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1920, 36);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
-            // trainMainForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -150,29 +151,28 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Location = new System.Drawing.Point(20, 0);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "trainMainForm";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Let\'s Rock";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureBox)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.backgroundPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem выходБезСохраненияToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьНовоеУпражнениеToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem закончитьТренировкуToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem разминкаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem мнеНехерДелатьToolStripMenuItem;
         private System.Windows.Forms.PictureBox backgroundPictureBox;
+        private System.Windows.Forms.ToolStripMenuItem выходБезСохраненияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem закончитьТренировкуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem мнеНехерДелатьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem разминкаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьНовоеУпражнениеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem заминкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem создатьНовуюПрограммуТренировокToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip menuStrip1;
     }
 }
 

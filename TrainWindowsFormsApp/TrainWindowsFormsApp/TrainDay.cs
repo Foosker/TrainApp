@@ -23,8 +23,6 @@ namespace TrainWindowsFormsApp
                 train.Add(ExercisesType.ChestBase);
                 train.Add(addMuscles[progress % addMuscles.Count]);
             }
-
-
             return train;
         }
 

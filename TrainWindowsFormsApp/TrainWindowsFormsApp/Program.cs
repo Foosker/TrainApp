@@ -16,7 +16,7 @@ namespace TrainWindowsFormsApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new trainMainForm());
+            Application.Run(new MainForm());
         }
     }
 }

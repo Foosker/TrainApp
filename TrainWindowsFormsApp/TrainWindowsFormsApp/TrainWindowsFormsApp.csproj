@@ -83,7 +83,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonFunc.cs" />
     <Compile Include="Exercise.cs" />
     <Compile Include="ExercisesType.cs" />
     <Compile Include="FastTrainForm.cs">
