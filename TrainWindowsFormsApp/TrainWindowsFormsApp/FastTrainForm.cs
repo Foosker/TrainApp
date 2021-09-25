@@ -73,11 +73,14 @@ namespace TrainWindowsFormsApp
             // Кнопка Сохранить: тоже самое относительно кнопки Назад.
             SaveButton.Location = new Point(x: BackButton.Location.X, y: BackButton.Location.Y - SaveButton.Height - 10);
             SaveButton.Visible = false;  // Отключение кнопки сохранить пока не будет выбрана группа мышц
+            // Кнопка Увеличения прогресса: таже херня, относительно предыдущей кнопки
+            ProgressPlusButton.Location = new Point(x: SaveButton.Location.X, y: SaveButton.Location.Y - ProgressPlusButton.Height - 10);
 
             arrayExercises = (ExercisesType[])Enum.GetValues(typeof(ExercisesType));
             numberExercises = arrayExercises.Length;
 
             InitMap();
+            ShowNextTrain();
         }
 
         private void InitMap()
@@ -100,6 +103,31 @@ namespace TrainWindowsFormsApp
             }
         }
 
+        private void ShowNextTrain()
+        {
+            // Сначала получает массив мышечных групп на следующей тренировке, потом вибирает уникальные эллементы массива
+            var nextTrain = TrainDay.GetTrain(TrainCommon.GetProgress()).Distinct().ToArray();
+            // Список с индексами мышц, что будут тренироваться на следующей тренировке, в массиве мышц
+            List<int> indexesMuscles = new List<int>();
+
+            foreach (ExercisesType muscle in nextTrain)
+            {
+                // Находим индекс мышцы в массиве
+                var index = Array.IndexOf(arrayExercises, muscle);
+                // Добавляем в список индексов
+                indexesMuscles.Add(index);
+            }
+            // Сортируем список индексов по возрастанию
+            indexesMuscles.Sort();
+            // От минимального значения индекса до максимального
+            for (int i = indexesMuscles.Min(); i <= indexesMuscles.Max(); i++)
+            {
+                if (indexesMuscles.Contains(i))
+                {   // Если i есть в списке индексов, то меняем цвет кнопки по этому же индексу
+                    exercisesButtons[i].BackColor = Color.DeepSkyBlue;
+                }
+            }
+        }
 
         private void HideOrShowAllMenuButtons()
         {
@@ -208,6 +236,16 @@ namespace TrainWindowsFormsApp
             repeatButton.Enabled = false;
 
             exercisesData[index].Repeat += 2;
+        }
+
+        private void ProgressPlusButton_Click(object sender, EventArgs e)
+        {
+            foreach (Button button in exercisesButtons)
+            {
+                if (button.BackColor != Color.MediumOrchid) button.BackColor = Color.MediumOrchid;
+            }
+            TrainCommon.SaveProgress();
+            ShowNextTrain();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
