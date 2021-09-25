@@ -38,6 +38,7 @@ namespace TrainWindowsFormsApp
             // QuitButton
             // 
             this.QuitButton.BackColor = System.Drawing.Color.DarkRed;
+            this.QuitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.QuitButton.Font = new System.Drawing.Font("Segoe Print", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.QuitButton.Location = new System.Drawing.Point(1028, 1043);
             this.QuitButton.Name = "QuitButton";
@@ -50,6 +51,7 @@ namespace TrainWindowsFormsApp
             // BackButton
             // 
             this.BackButton.BackColor = System.Drawing.Color.Orange;
+            this.BackButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BackButton.Font = new System.Drawing.Font("Segoe Print", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.BackButton.Location = new System.Drawing.Point(1028, 955);
             this.BackButton.Name = "BackButton";
@@ -62,6 +64,7 @@ namespace TrainWindowsFormsApp
             // SaveButton
             // 
             this.SaveButton.BackColor = System.Drawing.Color.ForestGreen;
+            this.SaveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.SaveButton.Font = new System.Drawing.Font("Segoe Print", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.SaveButton.Location = new System.Drawing.Point(1028, 867);
             this.SaveButton.Name = "SaveButton";
@@ -74,6 +77,7 @@ namespace TrainWindowsFormsApp
             // ProgressPlusButton
             // 
             this.ProgressPlusButton.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.ProgressPlusButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ProgressPlusButton.Font = new System.Drawing.Font("Segoe Print", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ProgressPlusButton.Location = new System.Drawing.Point(1028, 715);
             this.ProgressPlusButton.Name = "ProgressPlusButton";

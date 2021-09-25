@@ -39,6 +39,7 @@ namespace TrainWindowsFormsApp
             // RegularTrainButton
             // 
             this.RegularTrainButton.BackColor = System.Drawing.Color.Gold;
+            this.RegularTrainButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RegularTrainButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RegularTrainButton.ForeColor = System.Drawing.Color.MediumBlue;
             this.RegularTrainButton.Location = new System.Drawing.Point(15, 560);
@@ -53,6 +54,7 @@ namespace TrainWindowsFormsApp
             // 
             this.FastTrainButton.BackColor = System.Drawing.Color.LawnGreen;
             this.FastTrainButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.FastTrainButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.FastTrainButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FastTrainButton.ForeColor = System.Drawing.Color.DarkRed;
             this.FastTrainButton.Location = new System.Drawing.Point(735, 560);
@@ -66,6 +68,7 @@ namespace TrainWindowsFormsApp
             // QuitButton
             // 
             this.QuitButton.BackColor = System.Drawing.Color.Maroon;
+            this.QuitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.QuitButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.QuitButton.Location = new System.Drawing.Point(325, 900);
             this.QuitButton.Name = "QuitButton";
@@ -78,6 +81,7 @@ namespace TrainWindowsFormsApp
             // warmUpButton
             // 
             this.warmUpButton.BackColor = System.Drawing.Color.Orange;
+            this.warmUpButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.warmUpButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.warmUpButton.ForeColor = System.Drawing.Color.Chartreuse;
             this.warmUpButton.Location = new System.Drawing.Point(200, 190);
@@ -91,6 +95,7 @@ namespace TrainWindowsFormsApp
             // hitchButton
             // 
             this.hitchButton.BackColor = System.Drawing.Color.DarkTurquoise;
+            this.hitchButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.hitchButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.hitchButton.ForeColor = System.Drawing.Color.Ivory;
             this.hitchButton.Location = new System.Drawing.Point(590, 190);
