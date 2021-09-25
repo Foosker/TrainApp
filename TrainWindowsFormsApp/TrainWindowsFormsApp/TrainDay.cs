@@ -25,19 +25,6 @@ namespace TrainWindowsFormsApp
             return train;
         }
 
-        private static List<ExercisesType> GetCoreTrain()
-        {
-            indentBetweenExercises = new List<int>() { 2, };
-            List<ExercisesType> train = new List<ExercisesType>();
-
-            for (int i = 0; i < 2; i++)
-            {
-                train.Add(ExercisesType.Core);
-                train.Add(ExercisesType.BackExtensor);
-            }
-            return train;
-        }
-
         private static List<ExercisesType> GetBackTrain()
         {
             indentBetweenExercises = new List<int>() { 2, 4 };
@@ -55,16 +42,20 @@ namespace TrainWindowsFormsApp
 
         private static List<ExercisesType> GetLegsTrain()
         {
-            indentBetweenExercises = new List<int>() { 2, 4 };
+            indentBetweenExercises = new List<int>() { 1, 3, 5 };
+            var core = new List<ExercisesType>()            { ExercisesType.BackExtensor, ExercisesType.Core };
+            var mainLegs = new List<ExercisesType>()        { ExercisesType.Quads, ExercisesType.Calf };
+            var additionalLegs = new List<ExercisesType>()  { ExercisesType.HipBiceps, ExercisesType.Shin };
+            var index = progress / 2 % 2;
+
             List<ExercisesType> train = new List<ExercisesType>();
 
             for (int i = 0; i < 2; i++)
             {
-                train.Add(ExercisesType.Calf);
-                train.Add(ExercisesType.Quads);
+                train.Add(mainLegs[index]);
+                train.Add(additionalLegs[index]);                
             }
-            train.Add(ExercisesType.HipBiceps);
-            train.Add(ExercisesType.Shin);
+            train.Insert(0, core[index]);
             return train;
         }
 
@@ -76,8 +67,6 @@ namespace TrainWindowsFormsApp
             {
                 case (0):
                     return GetChestTrain();
-                case (1):
-                    return GetCoreTrain();
                 case (2):
                     return GetBackTrain();
                 default:
