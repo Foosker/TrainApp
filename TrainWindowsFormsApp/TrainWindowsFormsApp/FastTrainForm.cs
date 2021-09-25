@@ -42,7 +42,7 @@ namespace TrainWindowsFormsApp
         };
 
         // Свойства элементов управления
-        private int height = 100;           // Высота ЭУ
+        private int height = 60;
         private int indentBetween = 75;
         private int y;
 
@@ -88,55 +88,20 @@ namespace TrainWindowsFormsApp
             for (int i = 0; i < numberExercises; i++)
             {
                 y = indentBetween + i % 6 * height;  // Формула расчёта координат эллемента по ординате
-
+                
                 if (i % 6 == 0)
                 { 
                     indentLeftEdge += width;
                 }
 
-                var button = CreateButton(indentLeftEdge, i, width, ExercisesTypeRus[i]);
+                var button = TrainCommon.CreateButton(this, indentLeftEdge, i % 6, width, ExercisesTypeRus[i]);
                 exercisesButtons[i] = button;
                 button.Click += ExercisesButton_Click;
             }
         }
 
-        private Button CreateButton(int indentLeftEdge, int indexRow, int width, string initialText = "")
-        {   // Создание кнопок 
-            int x = indentLeftEdge;
 
-            var button = new Button
-            {
-                BackColor = Color.DarkOliveGreen,
-                Font = new Font("Segoe Print", 18F, FontStyle.Bold, GraphicsUnit.Point, 204),
-                Text = initialText,
-                Size = new Size(width, height),
-                TextAlign = ContentAlignment.MiddleCenter,
-                Location = new Point(x, y)
-            };
-            Controls.Add(button);
-            button.BringToFront();
-            return button;
-        }
-
-        private Label CreateLabel(int indentLeftEdge, int indexRow, int width, string text)
-        {   // Создание ячеек
-            int x = indentLeftEdge;            
-
-            var label = new Label
-            {
-                BackColor = Color.LightBlue,
-                Font = new Font("Segoe Print", 18F, FontStyle.Bold, GraphicsUnit.Point, 204),
-                Text = text,
-                Size = new Size(width, height),
-                TextAlign = ContentAlignment.MiddleCenter,
-                Location = new Point(x, y)
-            };
-            Controls.Add(label);
-            label.BringToFront();
-            return label;
-        }
-
-        private void HideOrShowAllButtons()
+        private void HideOrShowAllMenuButtons()
         {
             menuMode = !menuMode;
             SaveButton.Visible = !SaveButton.Visible;  
@@ -156,17 +121,7 @@ namespace TrainWindowsFormsApp
                 Controls.Remove(repeatButtons[i]);
                 Controls.Remove(megaPlusButtons[i]);
             }
-
-            HideOrShowAllButtons();
-        }
-
-        private List<Exercise> GetDeserializedData(string path)
-        {   // Получение данных из файла
-            var dataExercises = FileProvider.GetData(path);
-            // и десериализация в список.
-            var deserializableDataExercises = JsonConvert.DeserializeObject<List<Exercise>>(dataExercises);
-
-            return deserializableDataExercises;
+            HideOrShowAllMenuButtons();
         }
 
         private void ExercisesButton_Click(object sender, EventArgs e)
@@ -174,7 +129,7 @@ namespace TrainWindowsFormsApp
             var button = sender as Button;
             var index = Array.IndexOf(exercisesButtons, button);
 
-            HideOrShowAllButtons();
+            HideOrShowAllMenuButtons();
 
             exercisesData = new List<Exercise>();
             nameLabels = new List<Label>();
@@ -183,7 +138,7 @@ namespace TrainWindowsFormsApp
             megaPlusButtons = new List<Button>();
 
             pathExercisesPath = "ExercisesType/" + Convert.ToString(arrayExercises[index]) + ".json";
-            exercisesData = GetDeserializedData(pathExercisesPath);
+            exercisesData = TrainCommon.GetDeserializedData(pathExercisesPath);
 
             height = 90;
             indentBetween = 25;
@@ -192,19 +147,19 @@ namespace TrainWindowsFormsApp
             {
                 y = 25 + i * (indentBetween + height); // Формула расчёта координат эллемента по ординате
 
-                var nameLabel = CreateLabel(10, i, 500, exercisesData[i].Name);
+                var nameLabel = TrainCommon.CreateLabel(this, 10, i, 500, exercisesData[i].Name);
                 nameLabels.Add(nameLabel);
                 nameLabel.Click += NameLabel_Click;
 
-                var loadLabel = CreateLabel(520, i, 200, exercisesData[i].Load);
+                var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, exercisesData[i].Load);
                 loadLabels.Add(loadLabel);
 
-                var repeatButton = CreateButton(730, i, 50, Convert.ToString(exercisesData[i].Repeat));
+                var repeatButton = TrainCommon.CreateButton(this, 730, i, 50, Convert.ToString(exercisesData[i].Repeat));
                 repeatButton.Font = new Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, 204);
                 repeatButtons.Add(repeatButton);
                 repeatButton.Click += RepeatButton_Click;
 
-                var megaPlusButton = CreateButton(790, i, 50, "💣");
+                var megaPlusButton = TrainCommon.CreateButton(this, 790, i, 50, "💣");
                 megaPlusButtons.Add(megaPlusButton);
                 megaPlusButton.Click += MegaPlusButton_Click;
             }

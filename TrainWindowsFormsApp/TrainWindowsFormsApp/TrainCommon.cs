@@ -15,10 +15,10 @@ namespace TrainWindowsFormsApp
         static public List<string> pathsList = new List<string>();  // Массив для хранения всех путей к файлам нужен для сохранения результатов в конце тренировки
 
         // Свойства элементов управления
-        static public readonly int height = 60;           // Высота ЭУ
-        static public readonly int indentBetween = 10;    // Расстояние между ЭУ по горизонтали,
-        static public int indentUpEdge = 25;                   // то же по вертикали.
-        static public List<int> increaseIndentUpEdge;
+        public static int height = 70;          // Высота ЭУ
+        public static int indentBetween = 12;    // Расстояние между ЭУ по горизонтали,
+        public static int indentUpEdge = 25;                   // то же по вертикали.
+        public static List<int> increaseIndentUpEdge;
 
         private static Random random = new Random();
 
@@ -41,7 +41,7 @@ namespace TrainWindowsFormsApp
             return button;
         }
 
-        static public Label CreateLabel(Form form, int indentLeftEdge, int indexRow, int width)
+        static public Label CreateLabel(Form form, int indentLeftEdge, int indexRow, int width, string text="")
         {   // Создание ячеек
             int x = indentLeftEdge;
             int y = indentUpEdge + indexRow * (indentBetween + height); // Формула расчёта координат эллемента по ординате
@@ -52,6 +52,7 @@ namespace TrainWindowsFormsApp
                 Font = new Font("Gabriola", 30F, FontStyle.Bold, GraphicsUnit.Point, 204),
                 Size = new Size(width, height),
                 TextAlign = ContentAlignment.MiddleCenter,
+                Text = text,
                 Location = new Point(x, y)
             };
             form.Controls.Add(label);
