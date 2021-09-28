@@ -21,14 +21,15 @@ namespace TrainWindowsFormsApp
                                         
         Tuple<string, float>[] modes = // Режим тренировки
         {
-                new Tuple<string, float>("Нижние 1,5", 0.7f),
-                new Tuple<string, float>("Убывающее удержание", 0.8f),
-                new Tuple<string, float>("Всё и сразу", 5),
+                new Tuple<string, float>("Нижние 1,5", 0.8f),
                 new Tuple<string, float>("Обычный", 1),
+                new Tuple<string, float>("Всё и сразу", 5),
                 new Tuple<string, float>("Быстрый режим", 1.2f),
+                new Tuple<string, float>("Обычный", 1),
                 new Tuple<string, float>("Верхние 1,5", 0.7f),
                 new Tuple<string, float>("0,5 + 1 + 0,5", 0.6f)
-            };
+        };
+
         private int selectedMode;       // индекс из списка модов
 
         // Для смены упражнения

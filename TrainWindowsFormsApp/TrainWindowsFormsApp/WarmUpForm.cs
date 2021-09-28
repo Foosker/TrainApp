@@ -8,10 +8,6 @@ namespace TrainWindowsFormsApp
 {
     public partial class WarmUpForm : Form
     {
-        private readonly int height = 60;           // Высота ЭУ
-        private readonly int indentBetween = 15;    // Расстояние между ЭУ по горизонтали,
-        private readonly int indentUpEdge = 60;     // то же по вертикали.
-
         private Exercise[] exercises;
         private List<string> warmUp;
         private int warmUpCount;
@@ -43,9 +39,9 @@ namespace TrainWindowsFormsApp
         {
             for (int i = 0; i < warmUpCount; i++)
             {
-                CreateLabel(50, i, 600);
+                var label = TrainCommon.CreateLabel(this, 50, i, 600);
+                label.Text = warmUp[i];
             }
-
             Show();
         }
 
@@ -53,14 +49,13 @@ namespace TrainWindowsFormsApp
         {
             var modifiers = new List<string>
             {
-                "Блок : ",
-                "Уворот " + AddOptions("вправо : ", "влево : ", "вниз : "),
-                "Шаг " + AddOptions("вперёд : ", "назад : ", "вправо : ", "влево : "),
-                "Повтор удара : ",
-                AddOptions("5") + " сильных ударов : ",
-                AddOptions("10") + " быстрых ударов : "
+                "Из блока : ",
+                "С уворотом " + AddOptions("в сторону : ", "вниз : "),
+                "С шагом " + AddOptions("вперёд : ", "назад : ", "в сторону : "),
+                "С повтором : ",
+                "Cильный : ",
+                "Быстрый : "
             };
-
             return modifiers[random.Next(modifiers.Count())];
         }
 
@@ -71,24 +66,6 @@ namespace TrainWindowsFormsApp
                 return random.Next(3, result).ToString();
             }
             return options[random.Next(options.Length)];            
-        }
-
-        private Label CreateLabel(int indentLeftEdge, int indexRow, int width)
-        {   // Создание ячеек
-            int x = indentLeftEdge;
-            int y = indentUpEdge + indexRow * (indentBetween + height); // Формула расчёта координат эллемента по ординате
-
-            var label = new Label
-            {
-                BackColor = Color.AntiqueWhite,
-                Font = new Font("Comic Sans MS", 18F, FontStyle.Bold, GraphicsUnit.Point, 204),
-                Size = new Size(width, height),
-                Text = warmUp[indexRow],
-                TextAlign = ContentAlignment.MiddleCenter,
-                Location = new Point(x, y)
-            };
-            Controls.Add(label);
-            return label;
         }
 
         public void GetHitch()
