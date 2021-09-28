@@ -22,6 +22,33 @@ namespace TrainWindowsFormsApp
 
         private static Random random = new Random();
 
+        static private Color GetColor()
+        {
+            List<Color> colors = new List<Color>()
+            {
+                // Синие и зелёные
+                SystemColors.Highlight,
+                Color.LightSeaGreen,
+                Color.GreenYellow,
+                Color.LawnGreen,
+
+                // Красные ,розовые и фиолетовые
+                Color.Firebrick,
+                Color.HotPink,
+                Color.MediumOrchid,
+                Color.Violet,
+
+                // Жёлтые и оранжевые
+                Color.Gold,
+                Color.Goldenrod,
+                Color.DarkOrange,
+                Color.DarkTurquoise,
+            };
+            return colors[random.Next(colors.Count)];
+        }
+
+        public static Color buttonsColor = GetColor();
+        public static Color labelsColor = GetColor();
 
         static public Button CreateButton(Form form, int indentLeftEdge, int indexRow, int width, string initialText = "")
         {   // Создание кнопок 
@@ -30,7 +57,7 @@ namespace TrainWindowsFormsApp
 
             var button = new Button
             {
-                BackColor = Color.MediumOrchid,
+                BackColor = buttonsColor,
                 Font = new Font("Tahoma", 18F, FontStyle.Regular, GraphicsUnit.Point, 204),
                 Text = initialText,
                 Size = new Size(width, height),
@@ -48,7 +75,7 @@ namespace TrainWindowsFormsApp
 
             var label = new Label
             {
-                BackColor = Color.LightSeaGreen,
+                BackColor = labelsColor,
                 Font = new Font("Gabriola", 30F, FontStyle.Bold, GraphicsUnit.Point, 204),
                 Size = new Size(width, height),
                 TextAlign = ContentAlignment.MiddleCenter,

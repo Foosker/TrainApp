@@ -44,7 +44,6 @@ namespace TrainWindowsFormsApp
         // Свойства элементов управления
         private int height = 60;
         private int indentBetween = 75;
-        private int y;
 
         private string pathExercisesPath;
 
@@ -55,6 +54,8 @@ namespace TrainWindowsFormsApp
         private List<Label> loadLabels;         // лейблы с нагрузкой - нужны для удаления из Controls,
         private List<Button> repeatButtons;     // кнопки с повторениями - увеличенивают повторов на 1,
         private List<Button> megaPlusButtons;   // кнопки с увеличением повторов на 2.
+
+        List<int> indexesMuscles;  // Список индексов для подсветки тренируемых групп мышц
 
         public FastTrainForm()
         {
@@ -89,9 +90,7 @@ namespace TrainWindowsFormsApp
             var width = 150;
 
             for (int i = 0; i < numberExercises; i++)
-            {
-                y = indentBetween + i % 6 * height;  // Формула расчёта координат эллемента по ординате
-                
+            {                
                 if (i % 6 == 0)
                 { 
                     indentLeftEdge += width;
@@ -108,7 +107,7 @@ namespace TrainWindowsFormsApp
             // Сначала получает массив мышечных групп на следующей тренировке, потом вибирает уникальные эллементы массива
             var nextTrain = TrainDay.GetTrain(TrainCommon.GetProgress()).Distinct().ToArray();
             // Список с индексами мышц, что будут тренироваться на следующей тренировке, в массиве мышц
-            List<int> indexesMuscles = new List<int>();
+            indexesMuscles = new List<int>();
 
             foreach (ExercisesType muscle in nextTrain)
             {
@@ -117,15 +116,11 @@ namespace TrainWindowsFormsApp
                 // Добавляем в список индексов
                 indexesMuscles.Add(index);
             }
-            // Сортируем список индексов по возрастанию
-            indexesMuscles.Sort();
-            // От минимального значения индекса до максимального
-            for (int i = indexesMuscles.Min(); i <= indexesMuscles.Max(); i++)
+            // Проходим по каждому индексу в их списке и меняем цвет кнопки и её шрифта
+            foreach (int index in indexesMuscles)
             {
-                if (indexesMuscles.Contains(i))
-                {   // Если i есть в списке индексов, то меняем цвет кнопки по этому же индексу
-                    exercisesButtons[i].BackColor = Color.DeepSkyBlue;
-                }
+                exercisesButtons[index].BackColor = Color.LightSlateGray;
+                exercisesButtons[index].ForeColor = Color.Ivory;            
             }
         }
 
@@ -173,8 +168,6 @@ namespace TrainWindowsFormsApp
 
             for (int i = 0; i < exercisesData.Count; i++)
             {
-                y = 25 + i * (indentBetween + height); // Формула расчёта координат эллемента по ординате
-
                 var nameLabel = TrainCommon.CreateLabel(this, 10, i, 500, exercisesData[i].Name);
                 nameLabels.Add(nameLabel);
                 nameLabel.Click += NameLabel_Click;
@@ -239,13 +232,15 @@ namespace TrainWindowsFormsApp
         }
 
         private void ProgressPlusButton_Click(object sender, EventArgs e)
-        {
-            foreach (Button button in exercisesButtons)
+        {// Меняет значение файла Progress на +1
+            // Меняем цвета выделенных прежде кнопок на изначальные
+            foreach (int index in indexesMuscles)
             {
-                if (button.BackColor != Color.MediumOrchid) button.BackColor = Color.MediumOrchid;
+                exercisesButtons[index].BackColor = TrainCommon.buttonsColor;
+                exercisesButtons[index].ForeColor = SystemColors.ControlText;
             }
-            TrainCommon.SaveProgress();
-            ShowNextTrain();
+            TrainCommon.SaveProgress(); // Изменяем и сохраняем значение прогресса
+            ShowNextTrain();            // и выделяем эллементы по новому значению прогресса
         }
 
         private void SaveButton_Click(object sender, EventArgs e)

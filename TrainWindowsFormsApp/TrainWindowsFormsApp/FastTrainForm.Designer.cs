@@ -77,7 +77,7 @@ namespace TrainWindowsFormsApp
             // ProgressPlusButton
             // 
             this.ProgressPlusButton.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.ProgressPlusButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ProgressPlusButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ProgressPlusButton.Font = new System.Drawing.Font("Segoe Print", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ProgressPlusButton.Location = new System.Drawing.Point(1028, 715);
             this.ProgressPlusButton.Name = "ProgressPlusButton";
