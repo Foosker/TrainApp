@@ -16,7 +16,7 @@ namespace TrainWindowsFormsApp
 
         private MyMessageBox message;
 
-        private Exercise[] exercises;   // Массив, содержащий все упражнения тренировки
+        private OldExercise[] exercises;   // Массив, содержащий все упражнения тренировки
         private int numberOfExercises;  // и их количество
                                         
         Tuple<string, float>[] modes = // Режим тренировки
@@ -33,7 +33,7 @@ namespace TrainWindowsFormsApp
         private int selectedMode;       // индекс из списка модов
 
         // Для смены упражнения
-        private List<Exercise> exerciseChangeList;  // Список упражнений из конкретного файла для смены упражнения
+        private List<OldExercise> exerciseChangeList;  // Список упражнений из конкретного файла для смены упражнения
         private int indexInCurExL;  // Индекс упражнения в списке упражнений на тренировке
         private int indexInExChL;   // Индекс того же упражнения в файле
         private Button nextExerciseButton;  // Кнопка для перехода к следующему упражнению
@@ -251,14 +251,14 @@ namespace TrainWindowsFormsApp
 
         private void разминкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
+            OldExercise[] warmUp = TrainCommon.GetExercises("warmUp");
             var wF = new WarmUpForm(warmUp, this);
             wF.GetWarmUp();
         }
 
         private void заминкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
+            OldExercise[] warmUp = TrainCommon.GetExercises("warmUp");
             var wF = new WarmUpForm(warmUp, this);
             wF.GetHitch();
         }

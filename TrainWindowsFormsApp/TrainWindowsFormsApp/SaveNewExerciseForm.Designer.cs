@@ -140,7 +140,7 @@
             // 
             // exerciseBindingSource
             // 
-            this.exerciseBindingSource.DataSource = typeof(TrainWindowsFormsApp.Exercise);
+            this.exerciseBindingSource.DataSource = typeof(TrainWindowsFormsApp.OldExercise);
             // 
             // label2
             // 

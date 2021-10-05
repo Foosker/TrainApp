@@ -1,21 +1,32 @@
-﻿namespace TrainWindowsFormsApp
+﻿using System.Collections.Generic;
+
+namespace TrainWindowsFormsApp
 {
     public class Exercise
     {
+        // Тренировки выстроены на периодичность: сила, виносливость(многоповторность) и по принципу Табата (20сек. нагрузки, 10сек. отдыха)
         public string Name;     // Название упражнения
-        public bool IsBase;     // Базовое ли упражнение
-        public int Repeat;      // Количество повторенеий
+        public int StrengthRepeat;      // Количество повторений для силы
+        public int StaminaRepeat;      // Количество повторений для выносливости
         public int MaxRepeat;   // Максимально количество повторений, при достижении которого следует указать новую нагрузку
-        public string Load;     // Нагрузка
+        public string StrengthLoad;     // Нагрузка
+        public string StaminaLoad;     // Нагрузка
+        public string TabataLoad;     // Нагрузка
         public string Remark;   // Примечания
 
-        public Exercise(string name, bool isBase, int repeat, int maxRepeat, string load, string remark = null)
+        public Exercise(string name, 
+                        int strengthRepeat, int staminaRepeat, 
+                        int maxRepeat, 
+                        string strengthLoad, string staminaLoad, string tabataLoad, 
+                        string remark = null)
         {
             Name = name;
-            IsBase = isBase;
-            Repeat = repeat;
+            StrengthRepeat = strengthRepeat;
+            StaminaRepeat = staminaRepeat;
             MaxRepeat = maxRepeat;
-            Load = load;
+            StrengthLoad = strengthLoad;
+            StaminaLoad = staminaLoad;
+            TabataLoad = tabataLoad;
             Remark = remark;
         }
 

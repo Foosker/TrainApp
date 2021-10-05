@@ -8,54 +8,95 @@ namespace TrainWindowsFormsApp
     public static class TrainDay
     {
         private static int progress;
-        public static List<int> indentBetweenExercises;
-
+        public static List<int> indentBetweenExercises = new List<int>();
+        private static List<ExercisesType> train = new List<ExercisesType>();
+        //
+        // Для тренировок груди
+        //
+        private static List<ExercisesType> forChest = new List<ExercisesType> { ExercisesType.ChestBase, ExercisesType.ChestIsol, 
+                                                                                ExercisesType.DeltoidMid, ExercisesType.DeltoidFront};        
         private static List<ExercisesType> GetChestTrain()
         {
-            indentBetweenExercises = new List<int>(){ 2, 4 };
-            List<ExercisesType> train = new List<ExercisesType>();
-
             for (int i = 0; i < 2; i++)
             {
-                train.Add(ExercisesType.ChestBase);
-                train.Add(ExercisesType.DeltoidMid);
+                train.Add(forChest[0]);
+                train.Add(forChest[2]);
             }
-            train.Add(ExercisesType.ChestIsol);
-            train.Add(ExercisesType.DeltoidFront);
+
+            if (TrainCommon.option == "strength")
+            {
+                indentBetweenExercises.AddRange(new int[] { 1, 2, 3 });
+            }
+            else if (TrainCommon.option == "stamina")
+            {
+                indentBetweenExercises.AddRange(new int[] { 2, 4 });
+                train.Add(forChest[1]);
+                train.Add(forChest[3]);
+            }
+            else
+            {
+                indentBetweenExercises.AddRange(new int[] { 1, 2, 3, 4 });
+                train.Add(forChest[1]);
+            }
+
             return train;
         }
-
+        //
+        // Для тренировок спины
+        //
+        private static List<ExercisesType> forBack = new List<ExercisesType> { ExercisesType.Latissimus, ExercisesType.Scapula, 
+                                                                               ExercisesType.DeltoidRear, ExercisesType.Biceps};
         private static List<ExercisesType> GetBackTrain()
         {
-            indentBetweenExercises = new List<int>() { 2, 4 };
-            List<ExercisesType> train = new List<ExercisesType>();
-
             for (int i = 0; i < 2; i++)
             {
-                train.Add(ExercisesType.Latissimus);
-                train.Add(ExercisesType.DeltoidRear);
+                train.Add(forBack[0]);
             }
-            train.Add(ExercisesType.Scapula);
-            train.Add(ExercisesType.Biceps);
+
+            if (TrainCommon.option == "strength")
+            {
+                indentBetweenExercises.AddRange(new int[] { 1, 2, 3 });
+                train.Add(forBack[2]);
+                train.Add(forBack[3]);
+            }
+            else
+            {
+                indentBetweenExercises.AddRange(new int[] { 2, 4 });
+                train.Insert(1, forBack[2]);
+                train.Add(forBack[2]);
+                train.Add(forBack[1]);
+                train.Add(forBack[3]);
+            }
+            if (TrainCommon.option == "tabata")
+            {
+                indentBetweenExercises.AddRange(new int[] { 1, 3 });
+                indentBetweenExercises.Sort();
+                train.RemoveAt(4);
+            }
             return train;
         }
+        //
+        // Для тренировок ног и кора
+        //
+        private static List<ExercisesType> forLegs = new List<ExercisesType> { ExercisesType.Quads, ExercisesType.Calf,
+                                                                               ExercisesType.HipBiceps, ExercisesType.Shin };
+        private static List<ExercisesType> forCore = new List<ExercisesType> { ExercisesType.BackExtensor, ExercisesType.Core };
 
         private static List<ExercisesType> GetLegsTrain()
         {
-            indentBetweenExercises = new List<int>() { 1, 3, 5 };
-            var core = new List<ExercisesType>()            { ExercisesType.BackExtensor, ExercisesType.Core };
-            var mainLegs = new List<ExercisesType>()        { ExercisesType.Quads, ExercisesType.Calf };
-            var additionalLegs = new List<ExercisesType>()  { ExercisesType.HipBiceps, ExercisesType.Shin };
             var index = progress / 2 % 2;
-
-            List<ExercisesType> train = new List<ExercisesType>();
-
-            for (int i = 0; i < 2; i++)
+            train.Add(forLegs[index]);
+            train.Add(forLegs[index + 2]);
+            train.Add(forCore[index]);
+            if (TrainCommon.option == "stamina")
             {
-                train.Add(mainLegs[index]);
-                train.Add(additionalLegs[index]);                
+                indentBetweenExercises.AddRange(new int[] { 2 });
+                train.Insert(2, forLegs[index]);
             }
-            train.Insert(0, core[index]);
+            else
+            {
+                indentBetweenExercises.AddRange(new int[] { 1, 2 });
+            }
             return train;
         }
 

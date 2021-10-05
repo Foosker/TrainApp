@@ -5,12 +5,12 @@ namespace TrainWindowsFormsApp
 {
     public partial class SetNewLoadForm : Form
     {
-        Exercise exercise;
+        OldExercise exercise;
         MyMessageBox message;
 
         public string NewLoad;
 
-        public SetNewLoadForm(Exercise exercise)
+        public SetNewLoadForm(OldExercise exercise)
         {
             InitializeComponent();
 

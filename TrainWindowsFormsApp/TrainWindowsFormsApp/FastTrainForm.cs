@@ -41,13 +41,9 @@ namespace TrainWindowsFormsApp
         "Голень"
         };
 
-        // Свойства элементов управления
-        private int height = 60;
-        private int indentBetween = 75;
-
         private string pathExercisesPath;
 
-        private List<Exercise> exercisesData;
+        private List<OldExercise> exercisesData;
         private Button[] exercisesButtons = new Button[19];
 
         private List<Label> nameLabels;         // Лейблы с именами упражнений,
@@ -154,7 +150,7 @@ namespace TrainWindowsFormsApp
 
             HideOrShowAllMenuButtons();
 
-            exercisesData = new List<Exercise>();
+            exercisesData = new List<OldExercise>();
             nameLabels = new List<Label>();
             loadLabels = new List<Label>();
             repeatButtons = new List<Button>();
@@ -162,9 +158,6 @@ namespace TrainWindowsFormsApp
 
             pathExercisesPath = "ExercisesType/" + Convert.ToString(arrayExercises[index]) + ".json";
             exercisesData = TrainCommon.GetDeserializedData(pathExercisesPath);
-
-            height = 90;
-            indentBetween = 25;
 
             for (int i = 0; i < exercisesData.Count; i++)
             {

@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exercise.cs" />
+    <Compile Include="OldExercise.cs" />
     <Compile Include="ExercisesType.cs" />
     <Compile Include="FastTrainForm.cs">
       <SubType>Form</SubType>

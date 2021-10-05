@@ -70,14 +70,14 @@ namespace TrainWindowsFormsApp
             pathToExerciseFile = "ExercisesType/" + exercisesTypeListBox.SelectedItem + ".json";
         }
 
-        private List<Exercise> GetListExercises()
+        private List<OldExercise> GetListExercises()
         {
-            var deserializableData = new List<Exercise>();
+            var deserializableData = new List<OldExercise>();
 
             if (FileProvider.TryGet(pathToExerciseFile, out var data))
             {
                 data = FileProvider.GetData(pathToExerciseFile);
-                deserializableData = JsonConvert.DeserializeObject<List<Exercise>>(data);
+                deserializableData = JsonConvert.DeserializeObject<List<OldExercise>>(data);
             }
             else FileProvider.Save(pathToExerciseFile, "[]");
 
@@ -89,7 +89,7 @@ namespace TrainWindowsFormsApp
         {
             if (IsValid())
             {
-                var newExercise = new Exercise(textTextBox.Text,                // Название
+                var newExercise = new OldExercise(textTextBox.Text,                // Название
                                             isBase,                             // Базовое или нет
                                             int.Parse(repeatTextBox.Text),      // Повторения
                                             int.Parse(maxRepeatTextBox.Text),   // Максимум повторений
@@ -117,7 +117,7 @@ namespace TrainWindowsFormsApp
 
         }
 
-        private bool CheckCoincidences(List<Exercise> list, Exercise newExercise)
+        private bool CheckCoincidences(List<OldExercise> list, OldExercise newExercise)
         {   // Проверка на отсутствие такого упражнения в списке
             foreach (var exercise in list)
             {

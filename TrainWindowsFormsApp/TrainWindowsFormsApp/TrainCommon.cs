@@ -11,6 +11,7 @@ namespace TrainWindowsFormsApp
     {
         static private readonly string pathToProgressFile = "progress.txt";
         static public int progress = GetProgress();
+        public static string option = GetOption();
 
         static public List<string> pathsList = new List<string>();  // Массив для хранения всех путей к файлам нужен для сохранения результатов в конце тренировки
 
@@ -31,7 +32,7 @@ namespace TrainWindowsFormsApp
                 Color.LightSeaGreen,
                 Color.GreenYellow,
                 Color.LawnGreen,
-
+                    
                 // Красные ,розовые и фиолетовые
                 Color.Firebrick,
                 Color.HotPink,
@@ -100,6 +101,12 @@ namespace TrainWindowsFormsApp
             return int.Parse(data);
         }
 
+        static private string GetOption()
+        {
+            List<string> options = new List<string> { "strength", "stamina", "tabata" };
+            return options[progress / 8 % options.Count];
+        }
+
         static public void SaveProgress()
         {
             progress++;
@@ -108,7 +115,7 @@ namespace TrainWindowsFormsApp
             FileProvider.Save(pathToProgressFile, data);
         }
 
-        static public void SaveTrainResults(Exercise[] exercises)
+        static public void SaveTrainResults(OldExercise[] exercises)
         {
             for (int i = 0; i < pathsList.Count; i++)
             {
@@ -138,7 +145,7 @@ namespace TrainWindowsFormsApp
             }
         }
 
-        static public Exercise[] GetExercises(string option = "train")
+        static public OldExercise[] GetExercises(string option = "train")
         {   // Получаем список тренируемых мышц
             List<ExercisesType> exercisesList;
 
@@ -159,7 +166,7 @@ namespace TrainWindowsFormsApp
             var differentExecriseTypes = exercisesList.Distinct().ToList<ExercisesType>();
             var numberDifferentExercises = differentExecriseTypes.Count();
 
-            var exerciseArray = new Exercise[exercisesCount];  // Создание массива, куда будут добавляться упражнения
+            var exerciseArray = new OldExercise[exercisesCount];  // Создание массива, куда будут добавляться упражнения
 
             for (int i = 0; i < numberDifferentExercises; i++)
             {   // Название упражнения преобразуем в путь к файлу
@@ -187,11 +194,11 @@ namespace TrainWindowsFormsApp
             return exerciseArray;
         }
 
-        static public List<Exercise> GetDeserializedData(string path)
+        static public List<OldExercise> GetDeserializedData(string path)
         {   // Получение данных из файла
             var dataExercises = FileProvider.GetData(path);
             // и десериализация в список.
-            var deserializableDataExercises = JsonConvert.DeserializeObject<List<Exercise>>(dataExercises);
+            var deserializableDataExercises = JsonConvert.DeserializeObject<List<OldExercise>>(dataExercises);
 
             return deserializableDataExercises;
         }
