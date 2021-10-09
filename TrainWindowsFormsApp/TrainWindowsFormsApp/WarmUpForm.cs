@@ -8,13 +8,13 @@ namespace TrainWindowsFormsApp
 {
     public partial class WarmUpForm : Form
     {
-        private OldExercise[] exercises;
+        private Exercise[] exercises;
         private List<string> warmUp;
         private int warmUpCount;
 
         private static Random random = new Random();
 
-        public WarmUpForm(OldExercise[] array, Form form)
+        public WarmUpForm(Exercise[] array, Form form)
         {            
             InitializeComponent();
 

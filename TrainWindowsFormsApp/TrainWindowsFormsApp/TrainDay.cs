@@ -88,14 +88,16 @@ namespace TrainWindowsFormsApp
             train.Add(forLegs[index]);
             train.Add(forLegs[index + 2]);
             train.Add(forCore[index]);
+
+            train.Add(forLegs[index]);
+            train.Add(forCore[index]);
             if (TrainCommon.option == "stamina")
             {
-                indentBetweenExercises.AddRange(new int[] { 2 });
-                train.Insert(2, forLegs[index]);
+                indentBetweenExercises.AddRange(new int[] { 3 });
             }
             else
             {
-                indentBetweenExercises.AddRange(new int[] { 1, 2 });
+                indentBetweenExercises.AddRange(new int[] { 1, 2, 3, 4 });
             }
             return train;
         }

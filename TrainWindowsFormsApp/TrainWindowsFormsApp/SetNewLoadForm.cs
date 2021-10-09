@@ -5,12 +5,12 @@ namespace TrainWindowsFormsApp
 {
     public partial class SetNewLoadForm : Form
     {
-        OldExercise exercise;
+        Exercise exercise;
         MyMessageBox message;
 
         public string NewLoad;
 
-        public SetNewLoadForm(OldExercise exercise)
+        public SetNewLoadForm(Exercise exercise)
         {
             InitializeComponent();
 
@@ -20,7 +20,12 @@ namespace TrainWindowsFormsApp
         private void SetNewLoadForm_Load(object sender, EventArgs e)
         {
             currentExerciseLabel.Text = exercise.Name;
-            oldLoadLabel.Text = exercise.Load;
+            if (TrainCommon.option == "strength") oldLoadLabel.Text = exercise.StrengthLoad;
+            else
+            {
+                exercise.TabataLoad = exercise.StaminaLoad;  // Перенос нагрузки для выносливости на нагрузку для табаты
+                oldLoadLabel.Text = exercise.StaminaLoad;
+            }
         }
 
         private bool IsValid()

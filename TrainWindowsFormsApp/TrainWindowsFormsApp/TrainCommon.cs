@@ -115,7 +115,7 @@ namespace TrainWindowsFormsApp
             FileProvider.Save(pathToProgressFile, data);
         }
 
-        static public void SaveTrainResults(OldExercise[] exercises)
+        static public void SaveTrainResults(Exercise[] exercises)
         {
             for (int i = 0; i < pathsList.Count; i++)
             {
@@ -123,20 +123,29 @@ namespace TrainWindowsFormsApp
 
                 for (int j = 0; j < exercises.Length; j++)
                 {   // Здесь сравнение количества повторов с максимальным количеством
-                    if (exercises[j].Repeat > exercises[j].MaxRepeat)
+                    if (exercises[j].StrengthRepeat > exercises[j].MaxRepeat / 2)
                     {
                         var form = new SetNewLoadForm(exercises[j]);
                         form.ShowDialog();
-                        exercises[j].Repeat = 10;
-                        exercises[j].Load = form.NewLoad;
+                        exercises[j].StrengthRepeat = 3;
+                        exercises[j].StrengthLoad = form.NewLoad;
+                    }
+                    else if (exercises[j].StaminaRepeat > exercises[j].MaxRepeat)
+                    {
+                        var form = new SetNewLoadForm(exercises[j]);
+                        form.ShowDialog();
+                        exercises[j].StaminaRepeat = 10;
+                        exercises[j].StaminaLoad = form.NewLoad;
                     }
 
                     foreach (var exerc in deserializableData)
                     {
                         if (exerc.Name == exercises[j].Name)
                         {
-                            exerc.Repeat = exercises[j].Repeat;
-                            exerc.Load = exercises[j].Load;
+                            exerc.StrengthRepeat = exercises[j].StrengthRepeat;
+                            exerc.StrengthLoad = exercises[j].StrengthLoad;
+                            exerc.StaminaRepeat = exercises[j].StaminaRepeat;
+                            exerc.StaminaLoad = exercises[j].StaminaLoad;
                         }
                     }
                 }
@@ -145,7 +154,7 @@ namespace TrainWindowsFormsApp
             }
         }
 
-        static public OldExercise[] GetExercises(string option = "train")
+        static public Exercise[] GetExercises(string option = "train")
         {   // Получаем список тренируемых мышц
             List<ExercisesType> exercisesList;
 
@@ -166,7 +175,7 @@ namespace TrainWindowsFormsApp
             var differentExecriseTypes = exercisesList.Distinct().ToList<ExercisesType>();
             var numberDifferentExercises = differentExecriseTypes.Count();
 
-            var exerciseArray = new OldExercise[exercisesCount];  // Создание массива, куда будут добавляться упражнения
+            var exerciseArray = new Exercise[exercisesCount];  // Создание массива, куда будут добавляться упражнения
 
             for (int i = 0; i < numberDifferentExercises; i++)
             {   // Название упражнения преобразуем в путь к файлу
@@ -194,11 +203,11 @@ namespace TrainWindowsFormsApp
             return exerciseArray;
         }
 
-        static public List<OldExercise> GetDeserializedData(string path)
+        static public List<Exercise> GetDeserializedData(string path)
         {   // Получение данных из файла
             var dataExercises = FileProvider.GetData(path);
             // и десериализация в список.
-            var deserializableDataExercises = JsonConvert.DeserializeObject<List<OldExercise>>(dataExercises);
+            var deserializableDataExercises = JsonConvert.DeserializeObject<List<Exercise>>(dataExercises);
 
             return deserializableDataExercises;
         }

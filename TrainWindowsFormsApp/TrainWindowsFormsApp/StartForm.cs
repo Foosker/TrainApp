@@ -35,14 +35,14 @@ namespace TrainWindowsFormsApp
 
         private void warmUpButton_Click(object sender, EventArgs e)
         {
-            OldExercise[] warmUp = TrainCommon.GetExercises("warmUp");
+            Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
             var wF = new WarmUpForm(warmUp, this);
             wF.GetWarmUp();
         }
 
         private void hitchButton_Click(object sender, EventArgs e)
         {
-            OldExercise[] warmUp = TrainCommon.GetExercises("warmUp");
+            Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
             var wF = new WarmUpForm(warmUp, this);
             wF.GetHitch();
         }
