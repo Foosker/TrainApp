@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace TrainWindowsFormsApp
 {
     public partial class SetNewLoadForm : Form
     {
-        Exercise exercise;
+        Dictionary<string, string> exercise;
         MyMessageBox message;
 
         public string NewLoad;
 
-        public SetNewLoadForm(Exercise exercise)
+        public SetNewLoadForm(Dictionary<string, string> exercise)
         {
             InitializeComponent();
 
@@ -18,11 +19,9 @@ namespace TrainWindowsFormsApp
         }
 
         private void SetNewLoadForm_Load(object sender, EventArgs e)
-        {/*
-            currentExerciseLabel.Text = exercise.Name;
-            oldLoadLabel.Text = exercise.StrengthLoad;
-            oldLoadLabel.Text = exercise.StaminaLoad;
-            oldLoadLabel.Text = exercise.TabataLoad;*/
+        {
+            currentExerciseLabel.Text = exercise["name"];
+            oldLoadLabel.Text = exercise["load"];
         }
 
         private bool IsValid()

@@ -81,17 +81,21 @@ namespace TrainWindowsFormsApp
 
                 var loadLabel = TrainCommon.CreateLabel(this, 725, i, 150, exercises[i]["load"]);
                 labelsMap[i + numberOfExercises] = loadLabel;
-                
+
+                int megaPlusLeftEdge = 900;
+
                 if (exercises[i].ContainsKey("repeats"))
                 {
-                    var repeatButton = TrainCommon.CreateButton(this, 900, i, 100, exercises[i]["repeats"]);
+                    var repeatButton = TrainCommon.CreateButton(this, 900, i, 100, ModeRepeat(exercises[i]["repeats"]));
                     repeatButtons[i] = repeatButton;
                     repeatButton.Click += RepeatButton_Click;  // Событие нажатия на кнопку
+
+                    megaPlusLeftEdge += 100;
                 }
-                /*
-                var megaPlusButton = TrainCommon.CreateButton(this, 1060, i, 50, "💣");
+
+                var megaPlusButton = TrainCommon.CreateButton(this, megaPlusLeftEdge, i, 50, "💣");
                 megaPlusButtons[i] = megaPlusButton;
-                megaPlusButton.Click += MegaPlusButton_Click;*/
+                megaPlusButton.Click += MegaPlusButton_Click;
             }
         }
                 
@@ -101,16 +105,16 @@ namespace TrainWindowsFormsApp
 
             var modeLabel = TrainCommon.CreateLabel(this, 350, numberOfExercises + 1, 600);
             modeLabel.Font = new Font("Segoe UI Black", 40F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            modeLabel.ForeColor = Color.DarkOrange;
+            modeLabel.ForeColor = Color.Black;
             modeLabel.Height = 200;
             modeLabel.Text = modes[selectedMode].Item1;
         }
 
-        private string ModeRepeat(int buttonText)
+        private string ModeRepeat(string buttonText)
         {
-            var num = (float)buttonText;
+            var num = Convert.ToDouble(buttonText);
             num *= modes[selectedMode].Item2;
-            num = (float)Math.Round(num);            
+            num = Math.Round(num);            
 
             return Convert.ToString(num);
         }
@@ -227,18 +231,14 @@ namespace TrainWindowsFormsApp
             if (newValue > Convert.ToInt32(exercises[index]["maxRepeats"]) / 2) doneButton.Text = "MAX";
             // если нет - то меняем на новое значение.
             else doneButton.Text = "✓";
-            /*
+            
             var megaButton = megaPlusButtons[index];
             megaButton.BackColor = Color.Gray;
             megaButton.Text = "❌";
             megaButton.Enabled = false;
             
-            var form = new SetNewLoadForm(exercises[index]);
-            form.ShowDialog();
-            exercises[index].Tabata["load"] = form.NewLoad;*/
-            
         }
-        /*
+        
         private void MegaPlusButton_Click(object sender, EventArgs e)
         {   // Нажатие на кнопку 
             var megaButton = (sender as Button);     // Обращается к кнопке,
@@ -247,33 +247,12 @@ namespace TrainWindowsFormsApp
             megaButton.Enabled = false;             // Отключение кнопки после нажатия.
 
             var index = Array.IndexOf(megaPlusButtons, megaButton); // Получаем индекс кнопки в её специальном массиве,
-            var megaRepeat = exercises[index].MaxRepeat / 10 + 1;   // получаем большее число чем 1,
 
-
-            // Отключение обычных кнопок
-            var doneButton = repeatButtons[index];
-            doneButton.BackColor = Color.ForestGreen;
-            doneButton.Enabled = false;
-
-            // и меняем значение числа повторов.
-            if (TrainCommon.option == "strength")
-            {
-                exercises[index].Strength["repeats"] += megaRepeat;
-                // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercises[index].Strength["repeats"] > exercises[index].MaxRepeat / 2) doneButton.Text = "MAX";
-                // если нет - то меняем на новое значение.
-                else doneButton.Text = "✓";
-            }
-            else
-            {
-                exercises[index].Stamina["repeats"] += megaRepeat;
-                // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercises[index].Stamina["repeats"] > exercises[index].MaxRepeat) doneButton.Text = "MAX";
-                // если нет - то меняем на новое значение.
-                else doneButton.Text = "✓";
-            }
+            var form = new SetNewLoadForm(exercises[index]);
+            form.ShowDialog();
+            exercises[index]["load"] = form.NewLoad;
         }
-        */
+        
         private void разминкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             /*Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
