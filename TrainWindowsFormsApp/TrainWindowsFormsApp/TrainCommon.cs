@@ -11,7 +11,6 @@ namespace TrainWindowsFormsApp
     {
         static private readonly string pathToProgressFile = "progress.txt";
         static public int progress = GetProgress();
-        public static string option = GetOption();
 
         static public List<string> pathsList = new List<string>();  // Массив для хранения всех путей к файлам нужен для сохранения результатов в конце тренировки
 
@@ -101,12 +100,6 @@ namespace TrainWindowsFormsApp
             return int.Parse(data);
         }
 
-        static private string GetOption()
-        {
-            List<string> options = new List<string> { "strength", "stamina", "tabata" };
-            return options[progress / 8 % options.Count];
-        }
-
         static public void SaveProgress()
         {
             progress++;
@@ -114,95 +107,53 @@ namespace TrainWindowsFormsApp
 
             FileProvider.Save(pathToProgressFile, data);
         }
-
+        /*
         static public void SaveTrainResults(Exercise[] exercises)
         {
             for (int i = 0; i < pathsList.Count; i++)
             {
                 var deserializableData = GetDeserializedData(pathsList[i]);
-
                 for (int j = 0; j < exercises.Length; j++)
                 {   // Здесь сравнение количества повторов с максимальным количеством
-                    if (exercises[j].StrengthRepeat > exercises[j].MaxRepeat / 2)
+                    
+
+                    if (exercises[j].Strength != null && (int)exercises[j].Strength["repeats"] > exercises[j].MaxRepeat / 2)
                     {
                         var form = new SetNewLoadForm(exercises[j]);
                         form.ShowDialog();
-                        exercises[j].StrengthRepeat = 3;
-                        exercises[j].StrengthLoad = form.NewLoad;
+                        exercises[j].Strength["repeats"] = 3;
+                        exercises[j].Strength["load"] = form.NewLoad;
+
                     }
-                    else if (exercises[j].StaminaRepeat > exercises[j].MaxRepeat)
+                    else if (exercises[j].Stamina != null && (int)exercises[j].Stamina["repeats"] > exercises[j].MaxRepeat)
                     {
                         var form = new SetNewLoadForm(exercises[j]);
                         form.ShowDialog();
-                        exercises[j].StaminaRepeat = 10;
-                        exercises[j].StaminaLoad = form.NewLoad;
+                        exercises[j].Stamina["repeats"] = 10;
+                        exercises[j].Stamina["load"] = form.NewLoad;
                     }
 
                     foreach (var exerc in deserializableData)
                     {
                         if (exerc.Name == exercises[j].Name)
                         {
-                            exerc.StrengthRepeat = exercises[j].StrengthRepeat;
-                            exerc.StrengthLoad = exercises[j].StrengthLoad;
-                            exerc.StaminaRepeat = exercises[j].StaminaRepeat;
-                            exerc.StaminaLoad = exercises[j].StaminaLoad;
+                            exerc.Strength["repeats"] = exercises[j].Strength["repeats"];
+                            exerc.Strength["load"] = exercises[j].Strength["load"];
+                            exerc.Stamina["repeats"] = exercises[j].Stamina["repeats"];
+                            exerc.Stamina["load"] = exercises[j].Stamina["load"];
                         }
                     }
                 }
                 var serializableData = JsonConvert.SerializeObject(deserializableData, Formatting.Indented);
                 FileProvider.Save(pathsList[i], serializableData);
             }
+        }*/
+        
+        static public int GetTrainingTypeIndex(Exercise ex)
+        {
+            return progress % ex.typesTrainingList.Count;
         }
-
-        static public Exercise[] GetExercises(string option = "train")
-        {   // Получаем список тренируемых мышц
-            List<ExercisesType> exercisesList;
-
-            increaseIndentUpEdge = TrainDay.indentBetweenExercises;
-
-            if (option == "train")
-            {
-                exercisesList = TrainDay.GetTrain(progress);
-                increaseIndentUpEdge = TrainDay.indentBetweenExercises;
-            }
-            else
-            {
-                exercisesList = TrainDay.GetWarmUpList();
-            }
-
-            var exercisesCount = exercisesList.Count();
-
-            var differentExecriseTypes = exercisesList.Distinct().ToList<ExercisesType>();
-            var numberDifferentExercises = differentExecriseTypes.Count();
-
-            var exerciseArray = new Exercise[exercisesCount];  // Создание массива, куда будут добавляться упражнения
-
-            for (int i = 0; i < numberDifferentExercises; i++)
-            {   // Название упражнения преобразуем в путь к файлу
-                var pathExerciseFile = "ExercisesType/" + differentExecriseTypes[i].ToString() + ".json";
-                // и добавляем в список всех путей, если это тренировка или дополнение к ней
-                if (option != "warmUp") pathsList.Add(pathExerciseFile);
-
-                var deserializableDataExercises = GetDeserializedData(pathExerciseFile);
-
-                for (int j = i; j < exercisesCount; j++)
-                {
-                    if (differentExecriseTypes[i] == exercisesList[j])
-                    {
-                        int exerciseIndex;  // Индекс упражнения
-                        if (option == "warmUp") exerciseIndex = random.Next(deserializableDataExercises.Count());
-                        else exerciseIndex = (progress) / deserializableDataExercises.Count % deserializableDataExercises.Count();
-
-                        var exercise = deserializableDataExercises[exerciseIndex];  // Выбор упражнения по индексу,
-                        exerciseArray[j] = exercise;                                // добавление его в основной массив,
-                        deserializableDataExercises.Remove(exercise);               // удаление из списка файла.
-                    }
-                }
-
-            }
-            return exerciseArray;
-        }
-
+                
         static public List<Exercise> GetDeserializedData(string path)
         {   // Получение данных из файла
             var dataExercises = FileProvider.GetData(path);
@@ -211,5 +162,28 @@ namespace TrainWindowsFormsApp
 
             return deserializableDataExercises;
         }
+
+        /*static public void ConvertExercisesToNewFormat()
+        {
+            var arrayExercises = (ExercisesType[])Enum.GetValues(typeof(ExercisesType));
+
+            for (int i = 3; i < arrayExercises.Length; i++)
+            {
+                var path = "ExercisesType\\" + Convert.ToString(arrayExercises[i]) + ".json";
+                var dD = GetDeserializedData(path);
+                var nD = new List<Exercise>();
+                for (int j = 0; j < dD.Count; j++)
+                {
+                    var newExercise = new Exercise(dD[j].Name,
+                         dD[j].StrengthRepeat, dD[j].StaminaRepeat, dD[j].IntervalRepeat, dD[j].MaxRepeat,
+                         dD[j].StrengthLoad, dD[j].StaminaLoad, dD[j].TabataLoad, dD[j].IntervalLoad,
+                         dD[j].IntervalExercise, dD[j].SuperSplitExercise,
+                         dD[j].Remark);
+                    nD.Add(newExercise);
+                }
+                var sD = JsonConvert.SerializeObject(nD, Formatting.Indented);
+                FileProvider.Save(path, sD);
+            }
+        }*/
     }
 }

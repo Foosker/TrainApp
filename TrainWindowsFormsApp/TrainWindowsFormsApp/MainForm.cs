@@ -16,18 +16,16 @@ namespace TrainWindowsFormsApp
 
         private MyMessageBox message;
 
-        private Exercise[] exercises;   // Массив, содержащий все упражнения тренировки
+        private List<Dictionary<string, string>> exercises;   // Массив, содержащий все упражнения тренировки
         private int numberOfExercises;  // и их количество
-                                        
-        Tuple<string, float>[] modes = // Режим тренировки
+
+        readonly Tuple<string, float>[] modes = // Режим тренировки
         {
                 new Tuple<string, float>("Нижние 1,5", 0.8f),
                 new Tuple<string, float>("Обычный", 1),
-                new Tuple<string, float>("Всё и сразу", 5),
-                new Tuple<string, float>("Быстрый режим", 1.2f),
-                new Tuple<string, float>("Обычный", 1),
                 new Tuple<string, float>("Верхние 1,5", 0.7f),
-                new Tuple<string, float>("0,5 + 1 + 0,5", 0.6f)
+                new Tuple<string, float>("0,5 + 1 + 0,5", 0.6f),
+                new Tuple<string, float>("За один подход", 5f)
         };
 
         private int selectedMode;       // индекс из списка модов
@@ -46,13 +44,13 @@ namespace TrainWindowsFormsApp
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
             var start = new StartForm();
             start.ShowDialog();
 
-            exercises = TrainCommon.GetExercises();
+            exercises = TrainDay.GetTrain();
             InitMap();
             GetMode();
-            FillInTheTable();
             backgroundPictureBox.SendToBack();
             //var test = new SetNewProgramForm();
             //test.ShowDialog();
@@ -71,63 +69,32 @@ namespace TrainWindowsFormsApp
 
             for (int i = 0; i < numberOfExercises; i++)
             {   // Отступ между сетами упражнений
-                if (TrainCommon.increaseIndentUpEdge.Contains(i)) TrainCommon.indentUpEdge += 40;
+                if (TrainDay.indentBetweenExercises.Contains(i)) TrainCommon.indentUpEdge += 40;
                 // Кнопка начала режима смены упражнения
-                var exerciseChangeButton = TrainCommon.CreateButton(this, 10, i, 30, "⭯");
+                /*var exerciseChangeButton = TrainCommon.CreateButton(this, 10, i, 30, "⭯");
                 exercisesChangeButtons[i] = exerciseChangeButton;
                 exerciseChangeButton.Click += ExerciseChangeButton_Click;
-
-                var textLabel = TrainCommon.CreateLabel(this, 50, i, 650);
+                */
+                var textLabel = TrainCommon.CreateLabel(this, 50, i, 650, exercises[i]["name"]);
                 labelsMap[i] = textLabel;
                 textLabel.MouseClick += ExerciseName_MouseClick;   // Событие нажатия на текст с названием упражнения
 
-                var loadLabel = TrainCommon.CreateLabel(this, 725, i, 200);
+                var loadLabel = TrainCommon.CreateLabel(this, 725, i, 150, exercises[i]["load"]);
                 labelsMap[i + numberOfExercises] = loadLabel;
-
-                if (TrainCommon.option != "tabata")
+                
+                if (exercises[i].ContainsKey("repeats"))
                 {
-                    var repeatButton = TrainCommon.CreateButton(this, 950, i, 100);
+                    var repeatButton = TrainCommon.CreateButton(this, 900, i, 100, exercises[i]["repeats"]);
                     repeatButtons[i] = repeatButton;
-                    repeatButton.Click += RepeatButton_Click;  // Событие нажатия на кнопкуx
-
-                    var megaPlusButton = TrainCommon.CreateButton(this, 1060, i, 50, "💣");
-                    megaPlusButtons[i] = megaPlusButton;
-                    megaPlusButton.Click += MegaPlusButton_Click;
+                    repeatButton.Click += RepeatButton_Click;  // Событие нажатия на кнопку
                 }
+                /*
+                var megaPlusButton = TrainCommon.CreateButton(this, 1060, i, 50, "💣");
+                megaPlusButtons[i] = megaPlusButton;
+                megaPlusButton.Click += MegaPlusButton_Click;*/
             }
         }
-
-        private void FillInTheTable()
-        {   // Заполнение ячеек
-            if (TrainCommon.option == "strength")
-            {   // Для тренировки на силу
-                for (int i = 0; i < numberOfExercises; i++)
-                {
-                    labelsMap[i].Text = exercises[i].Name;                              // название упражнения
-                    labelsMap[i + numberOfExercises].Text = exercises[i].StrengthLoad;  // нагрузка
-                    repeatButtons[i].Text = ModeRepeat(exercises[i].StrengthRepeat);    // повторения
-                }
-            }
-            else if (TrainCommon.option == "stamina")            
-            {   // Для тренировки на выносливость
-                for (int i = 0; i < numberOfExercises; i++)
-                    {
-                    labelsMap[i].Text = exercises[i].Name;                              // название упражнения
-                    labelsMap[i + numberOfExercises].Text = exercises[i].StaminaLoad;   // нагрузка
-                    repeatButtons[i].Text = ModeRepeat(exercises[i].StaminaRepeat);     // повторения
-                }
-            }
-            else
-            {   // Для табата-тренировки
-                for (int i = 0; i < numberOfExercises; i++)
-                {
-                    labelsMap[i].Text = exercises[i].Name;                              // название упражнения
-                    labelsMap[i + numberOfExercises].Text = exercises[i].TabataLoad;    // нагрузка
-                    repeatButtons[i].Text = "Tabata";                                   // повторения
-                }
-            }
-        }
-        
+                
         private void GetMode()
         {   
             selectedMode = TrainCommon.progress % modes.Count();
@@ -154,9 +121,9 @@ namespace TrainWindowsFormsApp
         {   // Показ примечания к упражнению
             message = new MyMessageBox();
             var index = Array.IndexOf(labelsMap, sender); // Получаем индекс лейбла, на который нажали
-            message.ShowText(exercises[index].Remark);     // и выводим примечание к упражнению по полученному индексу.            
+            message.ShowText(exercises[index]["remark"]);     // и выводим примечание к упражнению по полученному индексу.            
         }
-
+        /*
         private void ExerciseChangeButton_Click(object sender, EventArgs e)
         {
             if (Controls.Contains(nextExerciseButton) || Controls.Contains(closeExChButton))
@@ -186,7 +153,7 @@ namespace TrainWindowsFormsApp
                 exerciseChangeList = TrainCommon.GetDeserializedData(path);                
                 for (indexInExChL = 0; indexInExChL < exerciseChangeList.Count(); indexInExChL++)
                 {
-                    if (exerciseChangeList[indexInExChL].Name == currentExercise.Name)
+                    if (exerciseChangeList[indexInExChL].Name == currentExercise["name"])
                     {
                         found = true;
                         break;
@@ -206,7 +173,7 @@ namespace TrainWindowsFormsApp
             closeExChButton.Click += CloseModeChangeExercise_Click;
 
         }
-
+        
         private void NextExerciseButton_Click(object sender, EventArgs e)
         {
             indexInExChL++;
@@ -219,17 +186,17 @@ namespace TrainWindowsFormsApp
 
             if (TrainCommon.option == "strength")
             {
-                labelsMap[indexInCurExL + numberOfExercises].Text = exerciseChangeList[indexInExChL].StrengthLoad.ToString();
-                repeatButtons[indexInCurExL].Text = ModeRepeat(exerciseChangeList[indexInExChL].StrengthRepeat);
+                labelsMap[indexInCurExL + numberOfExercises].Text = exerciseChangeList[indexInExChL].Strength["load"].ToString();
+                repeatButtons[indexInCurExL].Text = ModeRepeat(exerciseChangeList[indexInExChL].Strength["repeats"]);
             }
             else if (TrainCommon.option == "stamina")
             {
-                labelsMap[indexInCurExL + numberOfExercises].Text = exerciseChangeList[indexInExChL].StaminaLoad.ToString();
-                repeatButtons[indexInCurExL].Text = ModeRepeat(exerciseChangeList[indexInExChL].StaminaRepeat);
+                labelsMap[indexInCurExL + numberOfExercises].Text = exerciseChangeList[indexInExChL].Stamina["load"].ToString();
+                repeatButtons[indexInCurExL].Text = ModeRepeat(exerciseChangeList[indexInExChL].Stamina["repeats"]);
             }
             else
             {
-                labelsMap[indexInCurExL + numberOfExercises].Text = exerciseChangeList[indexInExChL].TabataLoad.ToString();
+                labelsMap[indexInCurExL + numberOfExercises].Text = exerciseChangeList[indexInExChL].Tabata["load"].ToString();
             }
         }
 
@@ -243,7 +210,7 @@ namespace TrainWindowsFormsApp
             exercisesChangeButtons[indexInCurExL].Visible = true;
             exercisesChangeButtons[indexInCurExL].Enabled = true;
         }
-
+        */
         private void RepeatButton_Click(object sender, EventArgs e)
         {   // Нажатие на кнопку выполнения упражнения
             var doneButton = (sender as Button);        // Обращается к кнопке,
@@ -251,31 +218,27 @@ namespace TrainWindowsFormsApp
             doneButton.Enabled = false;                 // Отключение кнопки после нажатия.
                                       
             var index = Array.IndexOf(repeatButtons, doneButton);              // Получаем индекс кнопки в её специальном массиве,
-            
-            // меняем значение числа повторов.
-            if (TrainCommon.option == "strength")
-            {
-                exercises[index].StrengthRepeat++;
-                // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercises[index].StrengthRepeat > exercises[index].MaxRepeat / 2) doneButton.Text = "MAX";
-                // если нет - то меняем на новое значение.
-                else doneButton.Text = "✓";
-            }
-            else
-            {
-                exercises[index].StaminaRepeat++;
-                // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercises[index].StaminaRepeat > exercises[index].MaxRepeat) doneButton.Text = "MAX";
-                // если нет - то меняем на новое значение.
-                else doneButton.Text = "✓";
-            }
 
+            // меняем значение числа повторов.
+            var newValue = Convert.ToInt32(exercises[index]["repeats"]);
+            newValue++;
+            exercises[index]["repeats"] = Convert.ToString(newValue);
+            // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
+            if (newValue > Convert.ToInt32(exercises[index]["maxRepeats"]) / 2) doneButton.Text = "MAX";
+            // если нет - то меняем на новое значение.
+            else doneButton.Text = "✓";
+            /*
             var megaButton = megaPlusButtons[index];
             megaButton.BackColor = Color.Gray;
             megaButton.Text = "❌";
             megaButton.Enabled = false;
+            
+            var form = new SetNewLoadForm(exercises[index]);
+            form.ShowDialog();
+            exercises[index].Tabata["load"] = form.NewLoad;*/
+            
         }
-
+        /*
         private void MegaPlusButton_Click(object sender, EventArgs e)
         {   // Нажатие на кнопку 
             var megaButton = (sender as Button);     // Обращается к кнопке,
@@ -295,40 +258,40 @@ namespace TrainWindowsFormsApp
             // и меняем значение числа повторов.
             if (TrainCommon.option == "strength")
             {
-                exercises[index].StrengthRepeat += megaRepeat;
+                exercises[index].Strength["repeats"] += megaRepeat;
                 // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercises[index].StrengthRepeat > exercises[index].MaxRepeat / 2) doneButton.Text = "MAX";
+                if (exercises[index].Strength["repeats"] > exercises[index].MaxRepeat / 2) doneButton.Text = "MAX";
                 // если нет - то меняем на новое значение.
                 else doneButton.Text = "✓";
             }
             else
             {
-                exercises[index].StaminaRepeat += megaRepeat;
+                exercises[index].Stamina["repeats"] += megaRepeat;
                 // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercises[index].StaminaRepeat > exercises[index].MaxRepeat) doneButton.Text = "MAX";
+                if (exercises[index].Stamina["repeats"] > exercises[index].MaxRepeat) doneButton.Text = "MAX";
                 // если нет - то меняем на новое значение.
                 else doneButton.Text = "✓";
             }
         }
-
+        */
         private void разминкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
+            /*Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
             var wF = new WarmUpForm(warmUp, this);
-            wF.GetWarmUp();
+            wF.GetWarmUp();*/
         }
 
         private void заминкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
+            /*Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
             var wF = new WarmUpForm(warmUp, this);
-            wF.GetHitch();
+            wF.GetHitch();*/
         }
 
         private void мнеНехерДелатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TrainCommon.SaveProgress();
-            TrainCommon.SaveTrainResults(exercises);
+            //TrainCommon.SaveTrainResults(exercises);
             Hide();
             var fastTrain = new FastTrainForm();
             fastTrain.ShowDialog();
@@ -340,27 +303,16 @@ namespace TrainWindowsFormsApp
             newProgrForm.ShowDialog();
         }
 
-        private void сохранитьНовоеУпражнениеToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var saveExerc = new SaveNewExerciseForm();
-            saveExerc.Show();
-        }
-
         private void закончитьТренировкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TrainCommon.SaveProgress();
-            TrainCommon.SaveTrainResults(exercises);
+            //TrainCommon.SaveTrainResults(exercises);
             Close();
         }
 
         private void выходБезСохраненияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
     }
 }

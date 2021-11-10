@@ -18,14 +18,11 @@ namespace TrainWindowsFormsApp
         }
 
         private void SetNewLoadForm_Load(object sender, EventArgs e)
-        {
+        {/*
             currentExerciseLabel.Text = exercise.Name;
-            if (TrainCommon.option == "strength") oldLoadLabel.Text = exercise.StrengthLoad;
-            else
-            {
-                exercise.TabataLoad = exercise.StaminaLoad;  // Перенос нагрузки для выносливости на нагрузку для табаты
-                oldLoadLabel.Text = exercise.StaminaLoad;
-            }
+            oldLoadLabel.Text = exercise.StrengthLoad;
+            oldLoadLabel.Text = exercise.StaminaLoad;
+            oldLoadLabel.Text = exercise.TabataLoad;*/
         }
 
         private bool IsValid()

@@ -72,10 +72,10 @@ namespace TrainWindowsFormsApp
             SaveButton.Visible = false;  // Отключение кнопки сохранить пока не будет выбрана группа мышц
             // Кнопка Увеличения прогресса: таже херня, относительно предыдущей кнопки
             ProgressPlusButton.Location = new Point(x: SaveButton.Location.X, y: SaveButton.Location.Y - ProgressPlusButton.Height - 10);
-
+            /*
             arrayExercises = (ExercisesType[])Enum.GetValues(typeof(ExercisesType));
             numberExercises = arrayExercises.Length;
-
+            
             InitMap();
             ShowNextTrain();
         }
@@ -167,31 +167,31 @@ namespace TrainWindowsFormsApp
 
                 if (TrainCommon.option == "strength")
                 {
-                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, exercisesData[i].StrengthLoad);
+                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, (string)exercisesData[i].Strength["load"]);
                     loadLabels.Add(loadLabel);
 
-                    var repeatButton = TrainCommon.CreateButton(this, 730, i, 50, Convert.ToString(exercisesData[i].StrengthRepeat));
+                    var repeatButton = TrainCommon.CreateButton(this, 730, i, 75, Convert.ToString(exercisesData[i].Strength["repeats"]));
                     repeatButton.Font = new Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, 204);
                     repeatButtons.Add(repeatButton);
                     repeatButton.Click += RepeatButton_Click;
                 }
                 else if (TrainCommon.option == "stamina")
                 {
-                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, exercisesData[i].StaminaLoad);
+                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, (string)exercisesData[i].Stamina["load"]);
                     loadLabels.Add(loadLabel);
 
-                    var repeatButton = TrainCommon.CreateButton(this, 730, i, 50, Convert.ToString(exercisesData[i].StaminaRepeat));
+                    var repeatButton = TrainCommon.CreateButton(this, 730, i, 75, Convert.ToString(exercisesData[i].Stamina["repeats"]));
                     repeatButton.Font = new Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, 204);
                     repeatButtons.Add(repeatButton);
                     repeatButton.Click += RepeatButton_Click;
                 }
                 else
                 {
-                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, exercisesData[i].TabataLoad);
+                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, exercisesData[i].Tabata["load"]);
                     loadLabels.Add(loadLabel);
                 }
 
-                var megaPlusButton = TrainCommon.CreateButton(this, 790, i, 50, "💣");
+                var megaPlusButton = TrainCommon.CreateButton(this, 815, i, 50, "💣");
                 megaPlusButtons.Add(megaPlusButton);
                 megaPlusButton.Click += MegaPlusButton_Click;
             }
@@ -219,22 +219,8 @@ namespace TrainWindowsFormsApp
             megaPlusButton.BackColor = Color.IndianRed;
             megaPlusButton.Enabled = false;
 
-            if (TrainCommon.option == "strength")
-            {
-                exercisesData[index].StrengthRepeat++;
-                // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercisesData[index].StrengthRepeat > exercisesData[index].MaxRepeat / 2) repeatButton.Text = "MAX";
-                // если нет - то меняем на новое значение.
-                else repeatButton.Text = "✓";
-            }
-            else
-            {
-                exercisesData[index].StaminaRepeat++;
-                // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercisesData[index].StaminaRepeat > exercisesData[index].MaxRepeat) repeatButton.Text = "MAX";
-                // если нет - то меняем на новое значение.
-                else repeatButton.Text = "✓";
-            }
+            var newValue = Convert.ToInt32(repeatButton.Text) + 1;
+            repeatButton.Text = Convert.ToString(newValue);
         }
 
         private void MegaPlusButton_Click(object sender, EventArgs e)
@@ -251,60 +237,47 @@ namespace TrainWindowsFormsApp
             repeatButton.BackColor = Color.Gold;
             repeatButton.Enabled = false;
 
-            if (TrainCommon.option == "strength")
-            {
-                exercisesData[index].StrengthRepeat += 2;
-                // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercisesData[index].StrengthRepeat > exercisesData[index].MaxRepeat / 2) repeatButton.Text = "MAX";
-                // если нет - то меняем на новое значение.
-                else repeatButton.Text = "✓";
-            }
-            else
-            {
-                exercisesData[index].StaminaRepeat += 2;
-                // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-                if (exercisesData[index].StaminaRepeat > exercisesData[index].MaxRepeat) repeatButton.Text = "MAX";
-                // если нет - то меняем на новое значение.
-                else repeatButton.Text = "✓";
-            }
+            var newValue = Convert.ToInt32(repeatButton.Text) + 2;
+            repeatButton.Text = Convert.ToString(newValue);*/
         }
 
         private void ProgressPlusButton_Click(object sender, EventArgs e)
         {// Меняет значение файла Progress на +1
             // Меняем цвета выделенных прежде кнопок на изначальные
-            foreach (int index in indexesMuscles)
+            /*foreach (int index in indexesMuscles)
             {
                 exercisesButtons[index].BackColor = TrainCommon.buttonsColor;
                 exercisesButtons[index].ForeColor = SystemColors.ControlText;
             }
             TrainCommon.SaveProgress(); // Изменяем и сохраняем значение прогресса
-            ShowNextTrain();            // и выделяем эллементы по новому значению прогресса
+            ShowNextTrain();            // и выделяем эллементы по новому значению прогресса*/
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            var serializedData = JsonConvert.SerializeObject(exercisesData, Formatting.Indented);
+            /*var serializedData = JsonConvert.SerializeObject(exercisesData, Formatting.Indented);
 
             FileProvider.Save(pathExercisesPath, serializedData);
 
-            ClearExercises();
+            ClearExercises();*/
         }
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            if (menuMode)
+           /*if (menuMode)
             {
                 Close();
             }
             else
             {
                 ClearExercises();
-            }
+            }*/
         }
 
         private void QuitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+        
     }
 }

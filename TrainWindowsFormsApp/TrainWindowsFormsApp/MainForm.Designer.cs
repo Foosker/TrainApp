@@ -34,7 +34,6 @@
             this.закончитьТренировкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.мнеНехерДелатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.разминкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сохранитьНовоеУпражнениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.заминкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьНовуюПрограммуТренировокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -60,7 +59,7 @@
             this.выходБезСохраненияToolStripMenuItem.BackColor = System.Drawing.Color.Firebrick;
             this.выходБезСохраненияToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.выходБезСохраненияToolStripMenuItem.Name = "выходБезСохраненияToolStripMenuItem";
-            this.выходБезСохраненияToolStripMenuItem.Size = new System.Drawing.Size(212, 29);
+            this.выходБезСохраненияToolStripMenuItem.Size = new System.Drawing.Size(212, 32);
             this.выходБезСохраненияToolStripMenuItem.Text = "Выход без сохранения";
             this.выходБезСохраненияToolStripMenuItem.Click += new System.EventHandler(this.выходБезСохраненияToolStripMenuItem_Click);
             // 
@@ -70,7 +69,7 @@
             this.закончитьТренировкуToolStripMenuItem.BackColor = System.Drawing.Color.SeaGreen;
             this.закончитьТренировкуToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.закончитьТренировкуToolStripMenuItem.Name = "закончитьТренировкуToolStripMenuItem";
-            this.закончитьТренировкуToolStripMenuItem.Size = new System.Drawing.Size(215, 29);
+            this.закончитьТренировкуToolStripMenuItem.Size = new System.Drawing.Size(215, 32);
             this.закончитьТренировкуToolStripMenuItem.Text = "Закончить тренировку";
             this.закончитьТренировкуToolStripMenuItem.Click += new System.EventHandler(this.закончитьТренировкуToolStripMenuItem_Click);
             // 
@@ -78,7 +77,7 @@
             // 
             this.мнеНехерДелатьToolStripMenuItem.BackColor = System.Drawing.Color.MediumTurquoise;
             this.мнеНехерДелатьToolStripMenuItem.Name = "мнеНехерДелатьToolStripMenuItem";
-            this.мнеНехерДелатьToolStripMenuItem.Size = new System.Drawing.Size(173, 29);
+            this.мнеНехерДелатьToolStripMenuItem.Size = new System.Drawing.Size(173, 32);
             this.мнеНехерДелатьToolStripMenuItem.Text = "Мне нехер делать";
             this.мнеНехерДелатьToolStripMenuItem.Click += new System.EventHandler(this.мнеНехерДелатьToolStripMenuItem_Click);
             // 
@@ -87,25 +86,15 @@
             this.разминкаToolStripMenuItem.BackColor = System.Drawing.Color.DarkGoldenrod;
             this.разминкаToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.разминкаToolStripMenuItem.Name = "разминкаToolStripMenuItem";
-            this.разминкаToolStripMenuItem.Size = new System.Drawing.Size(106, 29);
+            this.разминкаToolStripMenuItem.Size = new System.Drawing.Size(106, 32);
             this.разминкаToolStripMenuItem.Text = "Разминка";
             this.разминкаToolStripMenuItem.Click += new System.EventHandler(this.разминкаToolStripMenuItem_Click);
-            // 
-            // сохранитьНовоеУпражнениеToolStripMenuItem
-            // 
-            this.сохранитьНовоеУпражнениеToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.сохранитьНовоеУпражнениеToolStripMenuItem.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.сохранитьНовоеУпражнениеToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.сохранитьНовоеУпражнениеToolStripMenuItem.Name = "сохранитьНовоеУпражнениеToolStripMenuItem";
-            this.сохранитьНовоеУпражнениеToolStripMenuItem.Size = new System.Drawing.Size(275, 29);
-            this.сохранитьНовоеУпражнениеToolStripMenuItem.Text = "Сохранить новое упражнение";
-            this.сохранитьНовоеУпражнениеToolStripMenuItem.Click += new System.EventHandler(this.сохранитьНовоеУпражнениеToolStripMenuItem_Click);
             // 
             // заминкаToolStripMenuItem
             // 
             this.заминкаToolStripMenuItem.BackColor = System.Drawing.Color.Bisque;
             this.заминкаToolStripMenuItem.Name = "заминкаToolStripMenuItem";
-            this.заминкаToolStripMenuItem.Size = new System.Drawing.Size(98, 29);
+            this.заминкаToolStripMenuItem.Size = new System.Drawing.Size(98, 32);
             this.заминкаToolStripMenuItem.Text = "Заминка";
             this.заминкаToolStripMenuItem.Click += new System.EventHandler(this.заминкаToolStripMenuItem_Click);
             // 
@@ -114,7 +103,7 @@
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.BackColor = System.Drawing.Color.DimGray;
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.Name = "создатьНовуюПрограммуТренировокToolStripMenuItem";
-            this.создатьНовуюПрограммуТренировокToolStripMenuItem.Size = new System.Drawing.Size(356, 29);
+            this.создатьНовуюПрограммуТренировокToolStripMenuItem.Size = new System.Drawing.Size(356, 32);
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.Text = "Создать новую программу тренировок";
             this.создатьНовуюПрограммуТренировокToolStripMenuItem.Click += new System.EventHandler(this.создатьНовуюПрограммуТренировокToolStripMenuItem_Click);
             // 
@@ -128,15 +117,12 @@
             this.закончитьТренировкуToolStripMenuItem,
             this.мнеНехерДелатьToolStripMenuItem,
             this.разминкаToolStripMenuItem,
-            this.сохранитьНовоеУпражнениеToolStripMenuItem,
             this.заминкаToolStripMenuItem,
             this.создатьНовуюПрограммуТренировокToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1920, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1920, 33);
             this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // MainForm
             // 
@@ -169,7 +155,6 @@
         private System.Windows.Forms.ToolStripMenuItem закончитьТренировкуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem мнеНехерДелатьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem разминкаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьНовоеУпражнениеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem заминкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem создатьНовуюПрограммуТренировокToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
