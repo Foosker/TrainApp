@@ -97,6 +97,7 @@ namespace TrainWindowsFormsApp
                 megaPlusButtons[i] = megaPlusButton;
                 megaPlusButton.Click += MegaPlusButton_Click;
             }
+            TrainCommon.indentUpEdge = 25;
         }
                 
         private void GetMode()
@@ -108,6 +109,7 @@ namespace TrainWindowsFormsApp
             modeLabel.ForeColor = Color.Black;
             modeLabel.Height = 200;
             modeLabel.Text = modes[selectedMode].Item1;
+            modeLabel.Location = new Point(ClientSize.Width / 2 - modeLabel.Width / 2, ClientSize.Height);
         }
 
         private string ModeRepeat(string buttonText)
@@ -255,9 +257,9 @@ namespace TrainWindowsFormsApp
         
         private void разминкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
+            var warmUp = TrainDay.GetWarmUpList();
             var wF = new WarmUpForm(warmUp, this);
-            wF.GetWarmUp();*/
+            wF.GetWarmUp();
         }
 
         private void заминкаToolStripMenuItem_Click(object sender, EventArgs e)

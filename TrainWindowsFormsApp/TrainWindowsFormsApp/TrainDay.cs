@@ -67,15 +67,21 @@ namespace TrainWindowsFormsApp
             return progress % ex.typesTrainingList.Count;
         }
 
-        private static Exercise ChoseExercise(List<Exercise> deserializedList)
+        private static Exercise ChoseExercise(List<Exercise> deserializedList, string train = "train")
         {
-            var index = progress / deserializedList.Count % deserializedList.Count;
+            var random = new Random();
+            int index = progress / deserializedList.Count % deserializedList.Count;
+            if (train != "train")
+            {
+                index = random.Next(deserializedList.Count);
+            }
             return deserializedList[index];
         }
 
-        public static List<string> CreatePathList(List<ExercisesType> exercisesTypeList)
+        public static List<string> CreatePathList(List<ExercisesType> exercisesTypeList, List<string> path)
         {
-            return exercisesTypeList.ConvertAll(x => "ExercisesType/" + Convert.ToString(x) + ".json");
+            path = exercisesTypeList.ConvertAll(x => "ExercisesType/" + Convert.ToString(x) + ".json");
+            return path;
         }
 
         public static List<Dictionary<string, string>> GetExercisesInTrain(List<ExercisesType> list)
@@ -84,7 +90,7 @@ namespace TrainWindowsFormsApp
             var addedList = new List<object>(); // упражнения интервальной тренировки
 
             var exercisesTypeList = new List<ExercisesType>(list);  // Список разных типов упражнений,
-            pathList = CreatePathList(exercisesTypeList);      // по нему делаем список путей к файлам.
+            pathList = CreatePathList(exercisesTypeList, pathList);      // по нему делаем список путей к файлам.
             var finishedList = new List<Dictionary<string, string>>(); // Финальный массив словарей.
             for (int i = 0; i < exercisesTypeList.Distinct().Count(); i++)  // Цикл по количеству разных типов упражнений.
             {
@@ -169,18 +175,28 @@ namespace TrainWindowsFormsApp
             return finishedList;
         }
 
-        public static List<ExercisesType> GetWarmUpList()
+        public static List<Exercise> GetWarmUpList()
         {
+            var random = new Random();
             var warmUp = new List<ExercisesType>()
             {
                 ExercisesType.CombatArms,
-                ExercisesType.CombatArms,
                 ExercisesType.CombatLegs,
-                ExercisesType.CombatArms,
-                ExercisesType.CombatArms,
-                ExercisesType.CombatLegs
             };
-            return warmUp;
+            var warmUpPathList = new List<string>();
+            warmUpPathList = CreatePathList(warmUp, warmUpPathList).Distinct().ToList();
+            List<Exercise> result = new List<Exercise>();
+            foreach (string path in warmUpPathList)
+            {
+                var exList = GetExerciseData(path);
+                for (int i = 0; i < 3; i++)
+                {
+                    var ex = ChoseExercise(exList, "random");
+                    exList.Remove(ex);
+                    result.Insert(random.Next(0, i + 1), ex);
+                }
+            }
+            return result;
         }
     }
 }

@@ -18,7 +18,6 @@ namespace TrainWindowsFormsApp
         public static int height = 70;          // Высота ЭУ
         public static int indentBetween = 12;    // Расстояние между ЭУ по горизонтали,
         public static int indentUpEdge = 25;                   // то же по вертикали.
-        public static List<int> increaseIndentUpEdge;
 
         private static Random random = new Random();
 
