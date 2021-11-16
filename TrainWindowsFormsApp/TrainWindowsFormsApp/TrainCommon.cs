@@ -16,8 +16,8 @@ namespace TrainWindowsFormsApp
 
         // Свойства элементов управления
         public static int height = 70;          // Высота ЭУ
-        public static int indentBetween = 12;    // Расстояние между ЭУ по горизонтали,
-        public static int indentUpEdge = 25;                   // то же по вертикали.
+        public static int indentBetween = 12;   // Расстояние между ЭУ по горизонтали,
+        public static int indentUpEdge = 25;    // то же по вертикали.
 
         private static Random random = new Random();
 
@@ -31,7 +31,7 @@ namespace TrainWindowsFormsApp
                 Color.GreenYellow,
                 Color.LawnGreen,
                     
-                // Красные ,розовые и фиолетовые
+                // Красные, розовые и фиолетовые
                 Color.Firebrick,
                 Color.HotPink,
                 Color.MediumOrchid,
@@ -43,7 +43,10 @@ namespace TrainWindowsFormsApp
                 Color.DarkOrange,
                 Color.DarkTurquoise,
             };
-            return colors[random.Next(colors.Count)];
+
+            var chosenColor = colors[random.Next(colors.Count)];
+            colors.Remove(chosenColor);
+            return chosenColor;
         }
 
         public static Color buttonsColor = GetColor();

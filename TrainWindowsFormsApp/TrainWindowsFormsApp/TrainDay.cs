@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace TrainWindowsFormsApp
 {
     public static class TrainDay
     {
-        private static int progress;
+        private static int progress = TrainCommon.GetProgress();
         public static List<int> indentBetweenExercises = new List<int>();
         private static List<ExercisesType> train = new List<ExercisesType>();
 
@@ -53,7 +54,7 @@ namespace TrainWindowsFormsApp
                     GetLegsTrain();
                     break;
             }
-            indentBetweenExercises = Enumerable.Range(1, train.Count - 1).ToList();
+            indentBetweenExercises = Enumerable.Range(0, train.Count).ToList(); ;
             return GetExercisesInTrain(train);
         }
 
@@ -67,14 +68,9 @@ namespace TrainWindowsFormsApp
             return progress % ex.typesTrainingList.Count;
         }
 
-        private static Exercise ChoseExercise(List<Exercise> deserializedList, string train = "train")
+        private static Exercise ChoseExercise(List<Exercise> deserializedList)
         {
-            var random = new Random();
             int index = progress / deserializedList.Count % deserializedList.Count;
-            if (train != "train")
-            {
-                index = random.Next(deserializedList.Count);
-            }
             return deserializedList[index];
         }
 
@@ -103,9 +99,10 @@ namespace TrainWindowsFormsApp
                     var chosenTypeExercise = chosenExercise.typesTrainingList[GetTypeIndex(chosenExercise)];  // Выбираем тип тренировки (сила, выносливость и т.д.)
                     var dict = new Dictionary<string, string>                               // Словарь для выбранного типа упражнения,
                     {
-                        { "name", chosenExercise.Name },                          // в него добавляем название упражнения,
-                        { "load", Convert.ToString(chosenTypeExercise["load"]) }, // нагрузку,
-                        { "remark", chosenExercise.Remark }                       // ремарку.
+                        {"typeTrain", Convert.ToString(chosenTypeExercise["name"]) },   // в него добавляем тип тренировки
+                        { "name", chosenExercise.Name },                                // название упражнения,
+                        { "load", Convert.ToString(chosenTypeExercise["load"]) },       // нагрузку,
+                        { "remark", chosenExercise.Remark },                            // ремарку,
                     };                            
                     if (chosenTypeExercise.ContainsKey("repeats"))                           // если есть количество повторений (нет в Табата),
                     { 
@@ -116,11 +113,11 @@ namespace TrainWindowsFormsApp
                     var indexExTypeInStartedList = list.IndexOf(exercisesTypeList[i]);  // Находим в основном списке индекс этого типа упражнения,
 
                     // Если выбранный тип - интервальная тренировка
-                    if (chosenTypeExercise.ContainsValue("interval"))
+                    if (chosenTypeExercise.ContainsValue("Interval"))
                     {
-                        AddExercInList(chosenTypeExercise["exercises"], i + 1);
+                        AddExercInList(chosenTypeExercise["exercises"], indexExTypeInStartedList + 1);
                         gotInterval = true;
-                        for (int k = indexExTypeInStartedList; k < indentBetweenExercises.Count; k++) indentBetweenExercises[k]++; // Увеличение всех номеров для отступа от лейбла в главной форме начиная от этого номера
+                        for (int k = indexExTypeInStartedList + 1; k < indentBetweenExercises.Count; k++) indentBetweenExercises[k]++; // Увеличение всех номеров для отступа от лейбла в главной форме начиная от этого номера                        
                     }
 
                     try
@@ -141,7 +138,11 @@ namespace TrainWindowsFormsApp
 
             void AddExercInList(object addPaths, int addIndex)
             {
-                var addedPathsList = addPaths as List<string>;
+                // Ниже из объекта, преобразованного в строку, убираются все символы кроме лат. букв и запятых, затем конвертируется в массив через разделитель ","
+                var temporaryArray = Regex.Replace(addPaths.ToString(), "(?i)[^A-Z, ',']", "").Split(',');
+                // но в полученных строках массива в начале остаются пробелы, поэтому нужно ещё и их удалить, создав новый список с удалёнными пробелами
+                List<string> addedPathsList = new List<string>();
+                foreach (string path in temporaryArray) addedPathsList.Add("ExercisesType/" + path.Trim() + ".json");
                 addedList.Add(addedPathsList[progress / addedPathsList.Count % addedPathsList.Count]);
                 addedList.Add(addIndex);
             }
@@ -156,20 +157,22 @@ namespace TrainWindowsFormsApp
                     }
                     var exercisesList = GetExerciseData((string)addedList[i]);  // Десериализованный список упражнений.
                     var chosenExercise = ChoseExercise(exercisesList);  // Выбираем упражнение из десериализованного списка
-                    var random = new Random();
-                    var chosenTypeExercise = chosenExercise.typesTrainingList[random.Next(chosenExercise.typesTrainingList.Count)];  // Выбираем тип тренировки (сила, выносливость и т.д.)
                     var dict = new Dictionary<string, string>                               // Словарь для выбранного типа упражнения,
                     {
-                        { "name", chosenExercise.Name },                          // в него добавляем название упражнения,
-                        { "load", Convert.ToString(chosenTypeExercise["load"]) }, // нагрузку,
-                        { "remark", chosenExercise.Remark }                       // ремарку.
-                    };
-                    if (chosenTypeExercise.ContainsKey("repeat"))                           // если есть количество повторений (нет в Табата),
+                        { "name", chosenExercise.Name } }; // в него добавляем название упражнения,
+                    if (chosenExercise.typesTrainingList.Count != 0)
                     {
-                        dict.Add("repeat", Convert.ToString(chosenTypeExercise["repeat"])); // то добавляем повторения
-                        dict.Add("maxRepeat", Convert.ToString(chosenExercise.MaxRepeat));  // и их максимальное количество.
+                        var random = new Random();
+                        var chosenTypeExercise = chosenExercise.typesTrainingList[random.Next(chosenExercise.typesTrainingList.Count)];  // Выбираем тип тренировки (сила, выносливость и т.д.)
+                        dict.Add("load", Convert.ToString(chosenTypeExercise["load"]));     // Добавляем в словарь нагрузку,
+                        dict.Add("remark", chosenExercise.Remark);                          // ремарку.
+                        if (chosenTypeExercise.ContainsKey("repeats"))                      // если есть количество повторений (нет в Табата),
+                        {
+                            dict.Add("repeats", Convert.ToString(chosenTypeExercise["repeats"])); // то добавляем повторения
+                            dict.Add("maxRepeat", Convert.ToString(chosenExercise.MaxRepeat));  // и их максимальное количество.
+                        }
                     }
-                    finishedList.Insert(i + 1, dict);
+                    finishedList.Insert((int)addedList[i + 1], dict);
                 }
             }
             return finishedList;
@@ -191,11 +194,19 @@ namespace TrainWindowsFormsApp
                 var exList = GetExerciseData(path);
                 for (int i = 0; i < 3; i++)
                 {
-                    var ex = ChoseExercise(exList, "random");
+                    var ex = ChoseExercise(exList);
+                    try
+                    {
+                        result.Insert(random.Next(warmUpPathList.Count), ex);
+                    }
+                    catch
+                    {
+                        result.Add(ex);
+                    }
                     exList.Remove(ex);
-                    result.Insert(random.Next(0, i + 1), ex);
                 }
             }
+            
             return result;
         }
     }

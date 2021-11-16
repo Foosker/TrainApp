@@ -22,34 +22,42 @@ namespace TrainWindowsFormsApp
             Remark = remark;
             if (strengthLoad != null)
             {
-                var Strength = new Dictionary<string, object>(3);
-                Strength.Add("name", "Strength");
-                Strength.Add("load", strengthLoad);
-                Strength.Add("repeats", strengthRepeat);
+                var Strength = new Dictionary<string, object>(3)
+                {
+                    { "name", "Strength" },
+                    { "load", strengthLoad },
+                    { "repeats", strengthRepeat }
+                };
                 typesTrainingList.Add(Strength);
             }
             if (staminaLoad != null)
             {
-                var Stamina = new Dictionary<string, object>(3);
-                Stamina.Add("name", "Stamina");
-                Stamina.Add("load", staminaLoad);
-                Stamina.Add("repeats", staminaRepeat);
+                var Stamina = new Dictionary<string, object>(3)
+                {
+                    { "name", "Stamina" },
+                    { "load", staminaLoad },
+                    { "repeats", staminaRepeat }
+                };
                 typesTrainingList.Add(Stamina);
             }
             if (tabataLoad != null)
             {
-                var Tabata = new Dictionary<string, object>(2);
-                Tabata.Add("name", "Tabata");
-                Tabata.Add("load", tabataLoad);
+                var Tabata = new Dictionary<string, object>(2)
+                {
+                    { "name", "Tabata" },
+                    { "load", tabataLoad }
+                };
                 typesTrainingList.Add(Tabata);
             }
             if (intervalLoad != null)
             {
-                var Interval = new Dictionary<string, object>(4);
-                Interval.Add("name", "Interval");
-                Interval.Add("load", intervalLoad);
-                Interval.Add("repeats", intervalRepeat);
-                Interval.Add("exercises", new List<string>{intervalExercise, superSplitExercise});
+                var Interval = new Dictionary<string, object>(4)
+                {
+                    { "name", "Interval" },
+                    { "load", intervalLoad },
+                    { "repeats", intervalRepeat },
+                    { "exercises", new List<string> { intervalExercise, superSplitExercise } }
+                };
                 typesTrainingList.Add(Interval);
             }
         }

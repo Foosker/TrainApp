@@ -79,23 +79,24 @@ namespace TrainWindowsFormsApp
                 labelsMap[i] = textLabel;
                 textLabel.MouseClick += ExerciseName_MouseClick;   // Событие нажатия на текст с названием упражнения
 
-                var loadLabel = TrainCommon.CreateLabel(this, 725, i, 150, exercises[i]["load"]);
-                labelsMap[i + numberOfExercises] = loadLabel;
-
-                int megaPlusLeftEdge = 900;
-
-                if (exercises[i].ContainsKey("repeats"))
+                if (exercises[i].ContainsKey("load"))
                 {
-                    var repeatButton = TrainCommon.CreateButton(this, 900, i, 100, ModeRepeat(exercises[i]["repeats"]));
-                    repeatButtons[i] = repeatButton;
-                    repeatButton.Click += RepeatButton_Click;  // Событие нажатия на кнопку
+                    var loadLabel = TrainCommon.CreateLabel(this, 725, i, 170, exercises[i]["load"]);
+                    labelsMap[i + numberOfExercises] = loadLabel;
 
-                    megaPlusLeftEdge += 100;
+                    if (exercises[i].ContainsKey("repeats"))
+                    {
+                        var repeatButton = TrainCommon.CreateButton(this, 920, i, 120, ModeRepeat(exercises[i]["repeats"]));
+                        repeatButtons[i] = repeatButton;
+                        repeatButton.Click += RepeatButton_Click;  // Событие нажатия на кнопку
+                    }
+                    else TrainCommon.CreateLabel(this, 920, i, 120, exercises[i]["typeTrain"]);                    
+
+                    var megaPlusButton = TrainCommon.CreateButton(this, 1065, i, 50, "💣");                    
+                    megaPlusButtons[i] = megaPlusButton;                    
+                    megaPlusButton.Click += MegaPlusButton_Click;
+                    
                 }
-
-                var megaPlusButton = TrainCommon.CreateButton(this, megaPlusLeftEdge, i, 50, "💣");
-                megaPlusButtons[i] = megaPlusButton;
-                megaPlusButton.Click += MegaPlusButton_Click;
             }
             TrainCommon.indentUpEdge = 25;
         }
@@ -264,9 +265,9 @@ namespace TrainWindowsFormsApp
 
         private void заминкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
+            var warmUp = TrainDay.GetWarmUpList();
             var wF = new WarmUpForm(warmUp, this);
-            wF.GetHitch();*/
+            wF.GetHitch();
         }
 
         private void мнеНехерДелатьToolStripMenuItem_Click(object sender, EventArgs e)

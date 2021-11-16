@@ -41,10 +41,10 @@ namespace TrainWindowsFormsApp
         }
 
         private void hitchButton_Click(object sender, EventArgs e)
-        {/*
-            Exercise[] warmUp = TrainCommon.GetExercises("warmUp");
+        {
+            var warmUp = TrainDay.GetWarmUpList();
             var wF = new WarmUpForm(warmUp, this);
-            wF.GetHitch();*/
+            wF.GetHitch();
         }
     }
 }
