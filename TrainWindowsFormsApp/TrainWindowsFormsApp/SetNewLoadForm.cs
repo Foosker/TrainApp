@@ -21,12 +21,12 @@ namespace TrainWindowsFormsApp
         private void SetNewLoadForm_Load(object sender, EventArgs e)
         {
             currentExerciseLabel.Text = exercise["name"];
-            oldLoadLabel.Text = exercise["load"];
+            oldLoadLabel.Text = "Прежняя нагрузка: " + exercise["load"];
         }
 
         private bool IsValid()
         {
-            if (String.IsNullOrWhiteSpace(newLoadTextBox.Text))
+            if (string.IsNullOrWhiteSpace(newLoadTextBox.Text))
             {
                 message = new MyMessageBox();
                 message.ShowText("Введите нагрузку!");
@@ -40,6 +40,15 @@ namespace TrainWindowsFormsApp
             if (IsValid())
             {
                 NewLoad = newLoadTextBox.Text;
+                if (exercise.ContainsKey("repeats"))
+                {
+                    int repeatsNewValue = Convert.ToInt32(exercise["maxRepeats"]) / 2;
+                    if (exercise["typeTrain"] == "Strength")
+                    {
+                        repeatsNewValue /= 2;
+                    }
+                    exercise["repeats"] = Convert.ToString(repeatsNewValue);
+                }
                 Close();
             }
         }

@@ -21,36 +21,37 @@ namespace TrainWindowsFormsApp
 
         private static Random random = new Random();
 
+        private static List<Color> colors = new List<Color>()
+        {
+            // Синие и зелёные
+            SystemColors.Highlight,
+            Color.LightSeaGreen,
+            Color.GreenYellow,
+            Color.LawnGreen,
+                
+            // Красные, розовые и фиолетовые
+            Color.Firebrick,
+            Color.HotPink,
+            Color.MediumOrchid,
+            Color.Violet,
+
+            // Жёлтые и оранжевые
+            Color.Gold,
+            Color.Goldenrod,
+            Color.DarkOrange,
+            Color.DarkTurquoise,
+        };
+
         static private Color GetColor()
         {
-            List<Color> colors = new List<Color>()
-            {
-                // Синие и зелёные
-                SystemColors.Highlight,
-                Color.LightSeaGreen,
-                Color.GreenYellow,
-                Color.LawnGreen,
-                    
-                // Красные, розовые и фиолетовые
-                Color.Firebrick,
-                Color.HotPink,
-                Color.MediumOrchid,
-                Color.Violet,
-
-                // Жёлтые и оранжевые
-                Color.Gold,
-                Color.Goldenrod,
-                Color.DarkOrange,
-                Color.DarkTurquoise,
-            };
-
             var chosenColor = colors[random.Next(colors.Count)];
-            colors.Remove(chosenColor);
+            colors.RemoveAll(x=>  colors.IndexOf(x) / 4 == colors.IndexOf(chosenColor) / 4);
             return chosenColor;
         }
 
         public static Color buttonsColor = GetColor();
         public static Color labelsColor = GetColor();
+        public static Color textBoxColor = GetColor();
 
         static public Button CreateButton(Form form, int indentLeftEdge, int indexRow, int width, string initialText = "")
         {   // Создание кнопок 
@@ -70,7 +71,25 @@ namespace TrainWindowsFormsApp
             return button;
         }
 
-        static public Label CreateLabel(Form form, int indentLeftEdge, int indexRow, int width, string text="")
+        static public TextBox CreateTextBox(Form form, int indentLeftEdge, int indexRow, int width, string initialText = "")
+        {   // Создание кнопок 
+            int x = indentLeftEdge;
+            int y = indentUpEdge + indexRow * (indentBetween + height);  // Формула расчёта координат эллемента по ординате
+
+            var textBox = new TextBox
+            {
+                BackColor = textBoxColor,
+                Font = new Font("Segoe Script", 30F, FontStyle.Regular, GraphicsUnit.Point, 204),
+                Text = initialText,
+                Size = new Size(width, height),
+                TextAlign = HorizontalAlignment.Center,
+                Location = new Point(x, y)
+            };
+            form.Controls.Add(textBox);
+            return textBox;
+        }
+
+        static public Label CreateLabel(Form form, int indentLeftEdge, int indexRow, int width, string initialText = "")
         {   // Создание ячеек
             int x = indentLeftEdge;
             int y = indentUpEdge + indexRow * (indentBetween + height); // Формула расчёта координат эллемента по ординате
@@ -81,7 +100,7 @@ namespace TrainWindowsFormsApp
                 Font = new Font("Gabriola", 30F, FontStyle.Bold, GraphicsUnit.Point, 204),
                 Size = new Size(width, height),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Text = text,
+                Text = initialText,
                 Location = new Point(x, y)
             };
             form.Controls.Add(label);
@@ -109,47 +128,42 @@ namespace TrainWindowsFormsApp
 
             FileProvider.Save(pathToProgressFile, data);
         }
-        /*
-        static public void SaveTrainResults(Exercise[] exercises)
+        
+        static public void SaveTrainResults(List<Dictionary<string, string>> exercises)
         {
+            pathsList = TrainDay.pathList.Distinct().ToList();
             for (int i = 0; i < pathsList.Count; i++)
             {
                 var deserializableData = GetDeserializedData(pathsList[i]);
-                for (int j = 0; j < exercises.Length; j++)
-                {   // Здесь сравнение количества повторов с максимальным количеством
-                    
-
-                    if (exercises[j].Strength != null && (int)exercises[j].Strength["repeats"] > exercises[j].MaxRepeat / 2)
+                foreach (Exercise ex in deserializableData)
+                {                                             // Сравнить каждое упражнение в десериализованной дате
+                    for (int j = 0; j < exercises.Count; j++) // с каждым упражнением в списке словарей в конце тренировки.
                     {
-                        var form = new SetNewLoadForm(exercises[j]);
-                        form.ShowDialog();
-                        exercises[j].Strength["repeats"] = 3;
-                        exercises[j].Strength["load"] = form.NewLoad;
-
-                    }
-                    else if (exercises[j].Stamina != null && (int)exercises[j].Stamina["repeats"] > exercises[j].MaxRepeat)
-                    {
-                        var form = new SetNewLoadForm(exercises[j]);
-                        form.ShowDialog();
-                        exercises[j].Stamina["repeats"] = 10;
-                        exercises[j].Stamina["load"] = form.NewLoad;
-                    }
-
-                    foreach (var exerc in deserializableData)
-                    {
-                        if (exerc.Name == exercises[j].Name)
+                        if (ex.Name == exercises[j]["name"]) // Если имя упражнения из десер.даты совпадает с именем из списка,
                         {
-                            exerc.Strength["repeats"] = exercises[j].Strength["repeats"];
-                            exerc.Strength["load"] = exercises[j].Strength["load"];
-                            exerc.Stamina["repeats"] = exercises[j].Stamina["repeats"];
-                            exerc.Stamina["load"] = exercises[j].Stamina["load"];
+                            foreach (Dictionary<string, object> type in ex.typesTrainingList)
+                            {  // если имена похожи и что-то из нагрузки или повторов - нет,
+                                if ((string)type["name"] == exercises[j]["typeTrain"])
+                                {
+                                    if ((string)type["load"] != exercises[j]["load"])
+                                    { // то меняем их
+                                       type["load"] = exercises[j]["load"];
+                                    }
+                                    if (type.ContainsKey("repeats"))
+                                    {
+                                        type["repeats"] = exercises[j]["repeats"];
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
                         }
                     }
                 }
-                var serializableData = JsonConvert.SerializeObject(deserializableData, Formatting.Indented);
-                FileProvider.Save(pathsList[i], serializableData);
+                var serializableData = JsonConvert.SerializeObject(deserializableData, Formatting.Indented);    // Сериализуем данные
+                FileProvider.Save(pathsList[i], serializableData);                                              // и перезаписываем.
             }
-        }*/
+        }
         
         static public int GetTrainingTypeIndex(Exercise ex)
         {

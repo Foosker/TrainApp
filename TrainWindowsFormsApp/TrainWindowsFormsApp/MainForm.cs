@@ -11,6 +11,7 @@ namespace TrainWindowsFormsApp
         // Списки лейблов/кнопок
         private Label[] labelsMap;                  // Все лейблы
         private Button[] exercisesChangeButtons;    // Кнопки для смены упражнений
+        private TextBox[] repeatTextBoxes;           // ТекстБокс для повторов
         private Button[] repeatButtons;             // Кнопки выполнения упражнений и увеличения количества повторов на 1
         private Button[] megaPlusButtons;           // То же, только увеличение больше
 
@@ -25,17 +26,17 @@ namespace TrainWindowsFormsApp
                 new Tuple<string, float>("Обычный", 1),
                 new Tuple<string, float>("Верхние 1,5", 0.7f),
                 new Tuple<string, float>("0,5 + 1 + 0,5", 0.6f),
-                new Tuple<string, float>("За один подход", 5f)
+                new Tuple<string, float>("Со статикой", 0.9f)
         };
 
         private int selectedMode;       // индекс из списка модов
 
         // Для смены упражнения
-        private List<Exercise> exerciseChangeList;  // Список упражнений из конкретного файла для смены упражнения
-        private int indexInCurExL;  // Индекс упражнения в списке упражнений на тренировке
-        private int indexInExChL;   // Индекс того же упражнения в файле
-        private Button nextExerciseButton;  // Кнопка для перехода к следующему упражнению
-        private Button closeExChButton;     // Кнопка закрытия режима смены упражнения
+        //private List<Exercise> exerciseChangeList;  // Список упражнений из конкретного файла для смены упражнения
+        //private int indexInCurExL;  // Индекс упражнения в списке упражнений на тренировке
+        //private int indexInExChL;   // Индекс того же упражнения в файле
+        //private Button nextExerciseButton;  // Кнопка для перехода к следующему упражнению
+        //private Button closeExChButton;     // Кнопка закрытия режима смены упражнения
 
         public MainForm()
         {
@@ -64,6 +65,7 @@ namespace TrainWindowsFormsApp
 
             labelsMap = new Label[numberOfExercises * 2];   // Количество упражнений умноженное на количество лейблов
             exercisesChangeButtons = new Button[numberOfExercises];
+            repeatTextBoxes = new TextBox[numberOfExercises];
             repeatButtons = new Button[numberOfExercises];
             megaPlusButtons = new Button[numberOfExercises];
 
@@ -79,20 +81,23 @@ namespace TrainWindowsFormsApp
                 labelsMap[i] = textLabel;
                 textLabel.MouseClick += ExerciseName_MouseClick;   // Событие нажатия на текст с названием упражнения
 
-                if (exercises[i].ContainsKey("load"))
+                if (exercises[i].ContainsKey("load"))  // Если содержит ключ load, удары не содержат его
                 {
                     var loadLabel = TrainCommon.CreateLabel(this, 725, i, 170, exercises[i]["load"]);
                     labelsMap[i + numberOfExercises] = loadLabel;
 
                     if (exercises[i].ContainsKey("repeats"))
                     {
-                        var repeatButton = TrainCommon.CreateButton(this, 920, i, 120, ModeRepeat(exercises[i]["repeats"]));
+                        var repeatTextBox = TrainCommon.CreateTextBox(this, 920, i, 100, ModeRepeat(exercises[i]["repeats"]));
+                        repeatTextBoxes[i] = repeatTextBox;
+
+                        var repeatButton = TrainCommon.CreateButton(this, 1025, i, 50, "✓");
                         repeatButtons[i] = repeatButton;
                         repeatButton.Click += RepeatButton_Click;  // Событие нажатия на кнопку
                     }
-                    else TrainCommon.CreateLabel(this, 920, i, 120, exercises[i]["typeTrain"]);                    
+                    else TrainCommon.CreateLabel(this, 920, i, 155, exercises[i]["typeTrain"]);                    
 
-                    var megaPlusButton = TrainCommon.CreateButton(this, 1065, i, 50, "💣");                    
+                    var megaPlusButton = TrainCommon.CreateButton(this, 1100, i, 50, "⚒");                    
                     megaPlusButtons[i] = megaPlusButton;                    
                     megaPlusButton.Click += MegaPlusButton_Click;
                     
@@ -117,7 +122,7 @@ namespace TrainWindowsFormsApp
         {
             var num = Convert.ToDouble(buttonText);
             num *= modes[selectedMode].Item2;
-            num = Math.Round(num);            
+            num = Math.Ceiling(num);            
 
             return Convert.ToString(num);
         }
@@ -226,12 +231,20 @@ namespace TrainWindowsFormsApp
                                       
             var index = Array.IndexOf(repeatButtons, doneButton);              // Получаем индекс кнопки в её специальном массиве,
 
-            // меняем значение числа повторов.
-            var newValue = Convert.ToInt32(exercises[index]["repeats"]);
-            newValue++;
+            // меняем значение числа повторов:
+            // старое значение умножаем на 3, из нового значения убираем модификатор мода, складываем их, затем делим на 4
+            var newValue = Math.Ceiling((Convert.ToInt32(exercises[index]["repeats"]) * 3 + Convert.ToInt32(repeatTextBoxes[index].Text) / modes[selectedMode].Item2) / 4);
+            // вписываем новое значение в exercises
             exercises[index]["repeats"] = Convert.ToString(newValue);
             // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-            if (newValue > Convert.ToInt32(exercises[index]["maxRepeats"]) / 2) doneButton.Text = "MAX";
+            if ((exercises[index]["name"] == "Strength" &&  newValue > Convert.ToInt32(exercises[index]["maxRepeats"]) / 2) 
+                || newValue > Convert.ToInt32(exercises[index]["maxRepeats"]))
+            {
+                repeatTextBoxes[index].Text = "MAX";
+                var form = new SetNewLoadForm(exercises[index]);
+                form.ShowDialog();
+                exercises[index]["load"] = form.NewLoad;
+            }
             // если нет - то меняем на новое значение.
             else doneButton.Text = "✓";
             
@@ -245,9 +258,6 @@ namespace TrainWindowsFormsApp
         private void MegaPlusButton_Click(object sender, EventArgs e)
         {   // Нажатие на кнопку 
             var megaButton = (sender as Button);     // Обращается к кнопке,
-            megaButton.BackColor = Color.Gold;       // меняет окраску кнопки
-            megaButton.Text = "💥";                 // и текст на ней.
-            megaButton.Enabled = false;             // Отключение кнопки после нажатия.
 
             var index = Array.IndexOf(megaPlusButtons, megaButton); // Получаем индекс кнопки в её специальном массиве,
 
@@ -273,7 +283,7 @@ namespace TrainWindowsFormsApp
         private void мнеНехерДелатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TrainCommon.SaveProgress();
-            //TrainCommon.SaveTrainResults(exercises);
+            TrainCommon.SaveTrainResults(exercises);
             Hide();
             var fastTrain = new FastTrainForm();
             fastTrain.ShowDialog();
@@ -287,8 +297,8 @@ namespace TrainWindowsFormsApp
 
         private void закончитьТренировкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            TrainCommon.SaveTrainResults(exercises);
             TrainCommon.SaveProgress();
-            //TrainCommon.SaveTrainResults(exercises);
             Close();
         }
 

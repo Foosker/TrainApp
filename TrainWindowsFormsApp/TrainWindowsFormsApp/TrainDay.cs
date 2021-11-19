@@ -15,28 +15,31 @@ namespace TrainWindowsFormsApp
 
         public static List<string> pathList = new List<string>();
 
-        private static void GetChestTrain()
+        private static void GetChestAndBackTrain()
         {
             for (int i = 0; i < 2; i++)
             {
-                train.AddRange(new List<ExercisesType> { ExercisesType.ChestBase, ExercisesType.DeltoidMid, ExercisesType.Core});
+                train.AddRange(new List<ExercisesType> { ExercisesType.ChestBase, ExercisesType.Latissimus });
+            }
+            train.Add(ExercisesType.Biceps);
+        }
+
+        private static void GetDeltoidTrain()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                train.AddRange(new List<ExercisesType> { ExercisesType.DeltoidRear, ExercisesType.DeltoidMid });
             }
         }
 
-        private static void GetBackTrain()
+        private static void GetCoreLegsTrain()
         {
-            train.AddRange(new List<ExercisesType> { ExercisesType.DeltoidRear, ExercisesType.BackExtensor, ExercisesType.Latissimus,
-            ExercisesType.DeltoidRear, ExercisesType.BackExtensor, ExercisesType.Biceps});        
-            
-        }
-
-        private static void GetLegsTrain()
-        {
-            var legs = new List<ExercisesType> { ExercisesType.Quads, ExercisesType.Calf };
-            var index = progress / legs.Count % legs.Count;
+            var legs = new List<ExercisesType> { ExercisesType.Quads, ExercisesType.Calf, ExercisesType.Core, ExercisesType.BackExtensor, };
+            var index = progress / (legs.Count / 2) % (legs.Count / 2);
             for(int i = 0; i < 2; i++)
             {
                 train.Add(legs[index]);
+                train.Add(legs[index + 2]);
             }
         }
 
@@ -45,13 +48,13 @@ namespace TrainWindowsFormsApp
             switch (progress % 4)
             {
                 case (0):
-                    GetChestTrain();
+                    GetChestAndBackTrain();
                     break;
                 case (2):
-                    GetBackTrain();
+                    GetDeltoidTrain();
                     break;
                 default:
-                    GetLegsTrain();
+                    GetCoreLegsTrain();
                     break;
             }
             indentBetweenExercises = Enumerable.Range(0, train.Count).ToList(); ;
@@ -65,7 +68,7 @@ namespace TrainWindowsFormsApp
 
         private static int GetTypeIndex(Exercise ex)
         {
-            return progress % ex.typesTrainingList.Count;
+            return progress / ex.typesTrainingList.Count % ex.typesTrainingList.Count;
         }
 
         private static Exercise ChoseExercise(List<Exercise> deserializedList)
@@ -159,17 +162,18 @@ namespace TrainWindowsFormsApp
                     var chosenExercise = ChoseExercise(exercisesList);  // Выбираем упражнение из десериализованного списка
                     var dict = new Dictionary<string, string>                               // Словарь для выбранного типа упражнения,
                     {
-                        { "name", chosenExercise.Name } }; // в него добавляем название упражнения,
+                        { "name", chosenExercise.Name } }; // добавляем название упражнения,
                     if (chosenExercise.typesTrainingList.Count != 0)
                     {
                         var random = new Random();
                         var chosenTypeExercise = chosenExercise.typesTrainingList[random.Next(chosenExercise.typesTrainingList.Count)];  // Выбираем тип тренировки (сила, выносливость и т.д.)
-                        dict.Add("load", Convert.ToString(chosenTypeExercise["load"]));     // Добавляем в словарь нагрузку,
-                        dict.Add("remark", chosenExercise.Remark);                          // ремарку.
-                        if (chosenTypeExercise.ContainsKey("repeats"))                      // если есть количество повторений (нет в Табата),
+                        dict.Add("typeTrain", Convert.ToString(chosenTypeExercise["name"]));  // в него добавляем тип тренировки
+                        dict.Add("load", Convert.ToString(chosenTypeExercise["load"]));       // Добавляем в словарь нагрузку,
+                        dict.Add("remark", chosenExercise.Remark);                            // ремарку.
+                        if (chosenTypeExercise.ContainsKey("repeats"))                        // если есть количество повторений (нет в Табата),
                         {
-                            dict.Add("repeats", Convert.ToString(chosenTypeExercise["repeats"])); // то добавляем повторения
-                            dict.Add("maxRepeat", Convert.ToString(chosenExercise.MaxRepeat));  // и их максимальное количество.
+                            dict.Add("repeats", Convert.ToString(chosenTypeExercise["repeats"]));   // то добавляем повторения
+                            dict.Add("maxRepeat", Convert.ToString(chosenExercise.MaxRepeat));      // и их максимальное количество.
                         }
                     }
                     finishedList.Insert((int)addedList[i + 1], dict);
