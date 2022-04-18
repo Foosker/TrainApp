@@ -91,8 +91,6 @@ namespace TrainWindowsFormsApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::TrainWindowsFormsApp.Properties.Resources.chalenge_accepted;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1600, 1400);
             this.Controls.Add(this.ProgressPlusButton);
             this.Controls.Add(this.SaveButton);

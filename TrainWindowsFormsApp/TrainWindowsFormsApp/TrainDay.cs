@@ -15,49 +15,41 @@ namespace TrainWindowsFormsApp
 
         public static List<string> pathList = new List<string>();
 
-        private static void GetChestAndBackTrain()
+        private static void GetBackDay()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                train.AddRange(new List<ExercisesType> { ExercisesType.ChestBase, ExercisesType.Latissimus });
-            }
-            train.Add(ExercisesType.Biceps);
+            train.AddRange(new List<ExercisesType> { ExercisesType.BackExtensor, ExercisesType.Latissimus, ExercisesType.Biceps });
         }
-
+        private static void GetChestDay()
+        {
+            train.AddRange(new List<ExercisesType> { ExercisesType.Core, ExercisesType.ChestIsol, ExercisesType.ChestBase, ExercisesType.Triceps });            
+        }
         private static void GetDeltoidTrain()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                train.AddRange(new List<ExercisesType> { ExercisesType.DeltoidRear, ExercisesType.DeltoidMid });
-            }
+            train.AddRange(new List<ExercisesType> { ExercisesType.DeltoidRear, ExercisesType.DeltoidMid, ExercisesType.DeltoidFront });            
         }
-
-        private static void GetCoreLegsTrain()
+        private static void GetMediateTrain()
         {
-            var legs = new List<ExercisesType> { ExercisesType.Quads, ExercisesType.Calf, ExercisesType.Core, ExercisesType.BackExtensor, };
-            var index = progress / (legs.Count / 2) % (legs.Count / 2);
-            for(int i = 0; i < 2; i++)
-            {
-                train.Add(legs[index]);
-                train.Add(legs[index + 2]);
-            }
+            train.AddRange(new List<ExercisesType> { ExercisesType.Quads, ExercisesType.Calf, ExercisesType.Forearm });            
         }
 
         public static List<Dictionary<string, string>> GetTrain()
         {
-            switch (progress % 4)
+            switch (progress % 5)
             {
                 case (0):
-                    GetChestAndBackTrain();
+                    GetBackDay();
                     break;
-                case (2):
+                case (1):
+                    GetChestDay();
+                    break;
+                case (3):
                     GetDeltoidTrain();
                     break;
                 default:
-                    GetCoreLegsTrain();
+                    GetMediateTrain();
                     break;
             }
-            indentBetweenExercises = Enumerable.Range(0, train.Count).ToList(); ;
+            indentBetweenExercises = Enumerable.Range(0, train.Count).ToList();
             return GetExercisesInTrain(train);
         }
 
@@ -131,7 +123,7 @@ namespace TrainWindowsFormsApp
                     { 
                         finishedList.Add(dict);
                     }
-                    list[indexExTypeInStartedList] = ExercisesType.Forearm;                          // и удаляем из основного
+                    list[indexExTypeInStartedList] = ExercisesType.None;                          // и удаляем из основного
                 }
             }
             if (gotInterval)

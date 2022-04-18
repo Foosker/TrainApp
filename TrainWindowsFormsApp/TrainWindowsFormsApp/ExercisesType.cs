@@ -24,5 +24,7 @@ namespace TrainWindowsFormsApp
         BackExtensor,
         Calf,
         Shin,
+
+        None
     }
 }

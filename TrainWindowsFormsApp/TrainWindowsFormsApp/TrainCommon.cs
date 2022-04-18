@@ -141,11 +141,11 @@ namespace TrainWindowsFormsApp
                     {
                         if (ex.Name == exercises[j]["name"]) // Если имя упражнения из десер.даты совпадает с именем из списка,
                         {
-                            foreach (Dictionary<string, object> type in ex.typesTrainingList)
+                            foreach (Dictionary<string, string> type in ex.typesTrainingList)
                             {  // если имена похожи и что-то из нагрузки или повторов - нет,
-                                if ((string)type["name"] == exercises[j]["typeTrain"])
+                                if (type["name"] == exercises[j]["typeTrain"])
                                 {
-                                    if ((string)type["load"] != exercises[j]["load"])
+                                    if (type["load"] != exercises[j]["load"])
                                     { // то меняем их
                                        type["load"] = exercises[j]["load"];
                                     }

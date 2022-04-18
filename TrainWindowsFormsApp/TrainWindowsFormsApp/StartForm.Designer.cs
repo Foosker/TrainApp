@@ -111,8 +111,6 @@ namespace TrainWindowsFormsApp
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackgroundImage = global::TrainWindowsFormsApp.Properties.Resources.TrainHard11;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(1000, 1200);
             this.Controls.Add(this.hitchButton);
             this.Controls.Add(this.warmUpButton);

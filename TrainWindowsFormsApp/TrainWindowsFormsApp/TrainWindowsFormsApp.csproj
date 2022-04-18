@@ -177,16 +177,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\Debug\" />
     <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Background\TrainHard2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Background\chalenge_accepted.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Background\cup.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

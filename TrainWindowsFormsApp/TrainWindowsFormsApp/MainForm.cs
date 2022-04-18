@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace TrainWindowsFormsApp
 {
@@ -22,10 +23,16 @@ namespace TrainWindowsFormsApp
 
         readonly Tuple<string, float>[] modes = // Режим тренировки
         {
-                new Tuple<string, float>("Нижние 1,5", 0.8f),
                 new Tuple<string, float>("Обычный", 1),
+                new Tuple<string, float>("Нижние 1,5", 0.8f),
                 new Tuple<string, float>("Верхние 1,5", 0.7f),
                 new Tuple<string, float>("0,5 + 1 + 0,5", 0.6f),
+                new Tuple<string, float>("Всё сразу", 4),
+                new Tuple<string, float>("Обычный", 1),
+                new Tuple<string, float>("Нижние очерёдные 1.5", 0.6f),
+                new Tuple<string, float>("Верхние очерёдные 1.5", 0.5f),
+                new Tuple<string, float>("Очерёдные 1.5", 0.4f),
+                new Tuple<string, float>("Всё сразу", 4),
                 new Tuple<string, float>("Со статикой", 0.9f)
         };
 
@@ -45,7 +52,6 @@ namespace TrainWindowsFormsApp
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
             var start = new StartForm();
             start.ShowDialog();
 

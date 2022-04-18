@@ -6,15 +6,15 @@ namespace TrainWindowsFormsApp
     {
         // Тренировки выстроены на периодичность: сила, виносливость(многоповторность) и по принципу Табата (20сек. нагрузки, 10сек. отдыха)
         public string Name;                 // Название упражнения
-        public List<Dictionary<string, object>> typesTrainingList = new List<Dictionary<string, object>>();  // Список, содержащий словари с типами тренировк
+        public List<Dictionary<string, string>> typesTrainingList = new List<Dictionary<string, string>>();  // Список, содержащий словари с типами тренировк
         public int MaxRepeat;               // Максимально количество повторений, при достижении которого следует указать новую нагрузку
         public string Remark;               // Примечания
 
         public Exercise(string name,
-                        int strengthRepeat, int staminaRepeat, int intervalRepeat,
+                        string strengthRepeat, string staminaRepeat,
                         int maxRepeat,
                         string strengthLoad, string staminaLoad, string tabataLoad, string intervalLoad,
-                        string intervalExercise, string superSplitExercise,
+                        string intervalExercise,
                         string remark = null)
         {
             Name = name;
@@ -22,7 +22,7 @@ namespace TrainWindowsFormsApp
             Remark = remark;
             if (strengthLoad != null)
             {
-                var Strength = new Dictionary<string, object>(3)
+                var Strength = new Dictionary<string, string>(3)
                 {
                     { "name", "Strength" },
                     { "load", strengthLoad },
@@ -32,7 +32,7 @@ namespace TrainWindowsFormsApp
             }
             if (staminaLoad != null)
             {
-                var Stamina = new Dictionary<string, object>(3)
+                var Stamina = new Dictionary<string, string>(3)
                 {
                     { "name", "Stamina" },
                     { "load", staminaLoad },
@@ -42,7 +42,7 @@ namespace TrainWindowsFormsApp
             }
             if (tabataLoad != null)
             {
-                var Tabata = new Dictionary<string, object>(2)
+                var Tabata = new Dictionary<string, string>(2)
                 {
                     { "name", "Tabata" },
                     { "load", tabataLoad }
@@ -51,12 +51,10 @@ namespace TrainWindowsFormsApp
             }
             if (intervalLoad != null)
             {
-                var Interval = new Dictionary<string, object>(4)
+                var Interval = new Dictionary<string, string>(2)
                 {
                     { "name", "Interval" },
-                    { "load", intervalLoad },
-                    { "repeats", intervalRepeat },
-                    { "exercises", new List<string> { intervalExercise, superSplitExercise } }
+                    { "exercises", intervalExercise }
                 };
                 typesTrainingList.Add(Interval);
             }
