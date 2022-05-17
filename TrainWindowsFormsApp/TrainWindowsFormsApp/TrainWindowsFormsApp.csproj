@@ -158,6 +158,25 @@
     <EmbeddedResource Include="SetNewLoadForm.resx">
       <DependentUpon>SetNewLoadForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="bin\Debug\ExercisesType\BackExtensor.json" />
+    <None Include="bin\Debug\ExercisesType\Biceps.json" />
+    <None Include="bin\Debug\ExercisesType\Calf.json" />
+    <None Include="bin\Debug\ExercisesType\ChestBase.json" />
+    <None Include="bin\Debug\ExercisesType\ChestIsol.json" />
+    <None Include="bin\Debug\ExercisesType\CombatArms.json" />
+    <None Include="bin\Debug\ExercisesType\CombatLegs.json" />
+    <None Include="bin\Debug\ExercisesType\Core.json" />
+    <None Include="bin\Debug\ExercisesType\DeltoidFront.json" />
+    <None Include="bin\Debug\ExercisesType\DeltoidMid.json" />
+    <None Include="bin\Debug\ExercisesType\DeltoidRear.json" />
+    <None Include="bin\Debug\ExercisesType\Forearm.json" />
+    <None Include="bin\Debug\ExercisesType\HipBiceps.json" />
+    <None Include="bin\Debug\ExercisesType\Latissimus.json" />
+    <None Include="bin\Debug\ExercisesType\Quads.json" />
+    <None Include="bin\Debug\ExercisesType\Scapula.json" />
+    <None Include="bin\Debug\ExercisesType\Shin.json" />
+    <None Include="bin\Debug\ExercisesType\Trapezius.json" />
+    <None Include="bin\Debug\ExercisesType\Triceps.json" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Exercise.datasource" />
     <None Include="Properties\Settings.settings">
@@ -177,7 +196,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Debug\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

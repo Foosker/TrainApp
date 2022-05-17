@@ -39,7 +39,8 @@ namespace TrainWindowsFormsApp
         {
             for (int i = 0; i < warmUpCount; i++)
             {
-                var label = TrainCommon.CreateLabel(this, 50, i, 600);
+                var row = i >= 3 ? i + 1 : i;
+                var label = TrainCommon.CreateLabel(this, 50, row, 600);
                 label.Text = warmUp[i];
             }
             Show();
