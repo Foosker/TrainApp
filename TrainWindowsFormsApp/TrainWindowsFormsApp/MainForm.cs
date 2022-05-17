@@ -21,22 +21,22 @@ namespace TrainWindowsFormsApp
         private List<Dictionary<string, string>> exercises;   // Массив, содержащий все упражнения тренировки
         private int numberOfExercises;  // и их количество
 
-        readonly Tuple<string, float>[] modes = // Режим тренировки
+        readonly static Tuple<string, float>[] modes = // Режим тренировки
         {
                 new Tuple<string, float>("Обычный", 1),
                 new Tuple<string, float>("Нижние 1,5", 0.8f),
                 new Tuple<string, float>("Верхние 1,5", 0.7f),
                 new Tuple<string, float>("0,5 + 1 + 0,5", 0.6f),
-                new Tuple<string, float>("Всё сразу", 4),
                 new Tuple<string, float>("Обычный", 1),
+                new Tuple<string, float>("Всё сразу", 4),
                 new Tuple<string, float>("Нижние очерёдные 1.5", 0.6f),
                 new Tuple<string, float>("Верхние очерёдные 1.5", 0.5f),
                 new Tuple<string, float>("Очерёдные 1.5", 0.4f),
-                new Tuple<string, float>("Всё сразу", 4),
-                new Tuple<string, float>("Со статикой", 0.9f)
+                new Tuple<string, float>("Обычный", 1),
+                new Tuple<string, float>("Всё сразу", 4)
         };
 
-        private int selectedMode;       // индекс из списка модов
+        private readonly int selectedMode = TrainCommon.progress % modes.Count();       // индекс из списка модов
 
         // Для смены упражнения
         //private List<Exercise> exerciseChangeList;  // Список упражнений из конкретного файла для смены упражнения
@@ -114,8 +114,6 @@ namespace TrainWindowsFormsApp
                 
         private void GetMode()
         {   
-            selectedMode = TrainCommon.progress % modes.Count();
-
             var modeLabel = TrainCommon.CreateLabel(this, 350, numberOfExercises + 1, 600);
             modeLabel.Font = new Font("Segoe UI Black", 40F, FontStyle.Bold, GraphicsUnit.Point, 204);
             modeLabel.ForeColor = Color.Black;
@@ -128,7 +126,7 @@ namespace TrainWindowsFormsApp
         {
             var num = Convert.ToDouble(buttonText);
             num *= modes[selectedMode].Item2;
-            num = Math.Ceiling(num);            
+            num = Math.Ceiling(num);
 
             return Convert.ToString(num);
         }
@@ -239,12 +237,12 @@ namespace TrainWindowsFormsApp
 
             // меняем значение числа повторов:
             // старое значение умножаем на 3, из нового значения убираем модификатор мода, складываем их, затем делим на 4
-            var newValue = Math.Ceiling((Convert.ToInt32(exercises[index]["repeats"]) * 3 + Convert.ToInt32(repeatTextBoxes[index].Text) / modes[selectedMode].Item2) / 4);
+            var newValue = Math.Round((Convert.ToDouble(exercises[index]["repeats"]) * 3 + Convert.ToDouble(repeatTextBoxes[index].Text) / modes[selectedMode].Item2) / 4 + 1, 1);
             // вписываем новое значение в exercises
             exercises[index]["repeats"] = Convert.ToString(newValue);
             // Если количество изменённых повторов стало больше максимально допустимого пишем "МАХ",
-            if ((exercises[index]["name"] == "Strength" &&  newValue > Convert.ToInt32(exercises[index]["maxRepeats"]) / 2) 
-                || newValue > Convert.ToInt32(exercises[index]["maxRepeats"]))
+            if ((exercises[index]["name"] == "Strength" &&  newValue > Convert.ToDouble(exercises[index]["maxRepeats"]) / 2)
+                || newValue > Convert.ToDouble(exercises[index]["maxRepeats"]))
             {
                 repeatTextBoxes[index].Text = "MAX";
                 var form = new SetNewLoadForm(exercises[index]);

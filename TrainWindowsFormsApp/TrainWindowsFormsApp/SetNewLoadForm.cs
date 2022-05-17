@@ -42,7 +42,7 @@ namespace TrainWindowsFormsApp
                 NewLoad = newLoadTextBox.Text;
                 if (exercise.ContainsKey("repeats"))
                 {
-                    int repeatsNewValue = Convert.ToInt32(exercise["maxRepeats"]) / 2;
+                    var repeatsNewValue = Convert.ToDouble(exercise["maxRepeats"]) / 2;
                     if (exercise["typeTrain"] == "Strength")
                     {
                         repeatsNewValue /= 2;

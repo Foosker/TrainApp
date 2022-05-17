@@ -9,46 +9,37 @@ namespace TrainWindowsFormsApp
 {
     public static class TrainDay
     {
-        private static int progress = TrainCommon.GetProgress();
+        private static int progress = TrainCommon.GetProgress(); 
         public static List<int> indentBetweenExercises = new List<int>();
         private static List<ExercisesType> train = new List<ExercisesType>();
 
         public static List<string> pathList = new List<string>();
 
-        private static void GetBackDay()
-        {
-            train.AddRange(new List<ExercisesType> { ExercisesType.BackExtensor, ExercisesType.Latissimus, ExercisesType.Biceps });
-        }
-        private static void GetChestDay()
-        {
-            train.AddRange(new List<ExercisesType> { ExercisesType.Core, ExercisesType.ChestIsol, ExercisesType.ChestBase, ExercisesType.Triceps });            
-        }
-        private static void GetDeltoidTrain()
-        {
-            train.AddRange(new List<ExercisesType> { ExercisesType.DeltoidRear, ExercisesType.DeltoidMid, ExercisesType.DeltoidFront });            
-        }
-        private static void GetMediateTrain()
-        {
-            train.AddRange(new List<ExercisesType> { ExercisesType.Quads, ExercisesType.Calf, ExercisesType.Forearm });            
-        }
+        private static List<ExercisesType> backTrain = new List<ExercisesType>() { ExercisesType.Latissimus, ExercisesType.DeltoidRear, 
+                                                                                   ExercisesType.Latissimus, ExercisesType.DeltoidRear,
+                                                                                   ExercisesType.Biceps, ExercisesType.Biceps };
+
+        private static List<ExercisesType> absTrain = new List<ExercisesType>() { ExercisesType.Core, ExercisesType.BackExtensor,
+                                                                                  ExercisesType.Core, ExercisesType.BackExtensor };
+
+        private static List<ExercisesType> chestTrain = new List<ExercisesType>() { ExercisesType.ChestBase, ExercisesType.DeltoidMid, 
+                                                                                    ExercisesType.ChestBase, ExercisesType.DeltoidMid,
+                                                                                    ExercisesType.ChestIsol, ExercisesType.Trapezius};
+
+        private static List<ExercisesType> legsTrain = new List<ExercisesType>() { ExercisesType.Quads, ExercisesType.HipBiceps,
+                                                                                   ExercisesType.Quads, ExercisesType.Calf,
+                                                                                   ExercisesType.Calf, };
 
         public static List<Dictionary<string, string>> GetTrain()
         {
-            switch (progress % 5)
+            switch (progress % 4)
             {
-                case (0):
-                    GetBackDay();
-                    break;
-                case (1):
-                    GetChestDay();
-                    break;
-                case (3):
-                    GetDeltoidTrain();
-                    break;
-                default:
-                    GetMediateTrain();
-                    break;
+                case 0: train = backTrain; break;
+                case 1: train = absTrain; break;
+                case 2: train = chestTrain; break;
+                default: train = legsTrain; break;
             }
+
             indentBetweenExercises = Enumerable.Range(0, train.Count).ToList();
             return GetExercisesInTrain(train);
         }
@@ -72,7 +63,7 @@ namespace TrainWindowsFormsApp
         public static List<string> CreatePathList(List<ExercisesType> exercisesTypeList, List<string> path)
         {
             path = exercisesTypeList.ConvertAll(x => "ExercisesType/" + Convert.ToString(x) + ".json");
-            return path;
+            return path.Distinct().ToList();
         }
 
         public static List<Dictionary<string, string>> GetExercisesInTrain(List<ExercisesType> list)
@@ -80,7 +71,7 @@ namespace TrainWindowsFormsApp
             var gotInterval = false;            // Для добавления доп. 
             var addedList = new List<object>(); // упражнения интервальной тренировки
 
-            var exercisesTypeList = new List<ExercisesType>(list);  // Список разных типов упражнений,
+            var exercisesTypeList = new List<ExercisesType>(list).Distinct().ToList();  // Список разных типов упражнений,
             pathList = CreatePathList(exercisesTypeList, pathList);      // по нему делаем список путей к файлам.
             var finishedList = new List<Dictionary<string, string>>(); // Финальный массив словарей.
             for (int i = 0; i < exercisesTypeList.Distinct().Count(); i++)  // Цикл по количеству разных типов упражнений.
