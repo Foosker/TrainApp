@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TrainWindowsFormsApp
@@ -17,9 +10,18 @@ namespace TrainWindowsFormsApp
             InitializeComponent();
         }
 
-        private void RegularTrainButton_Click(object sender, EventArgs e)
+        public void RegularTrainButton_Click(object sender, EventArgs e)
         {
-            Close();
+            var mainForm = new MainForm();
+            mainForm.isRegular = true;
+            mainForm.ShowDialog();
+        }
+
+        public void PlusTrainButton_Click(object sender, EventArgs e)
+        {
+            var mainForm = new MainForm();
+            mainForm.isRegular = false;
+            mainForm.ShowDialog();
         }
 
         private void FastTrainButton_Click(object sender, EventArgs e)
@@ -45,6 +47,13 @@ namespace TrainWindowsFormsApp
             var warmUp = TrainDay.GetWarmUpList();
             var wF = new WarmUpForm(warmUp, this);
             wF.GetHitch();
+        }
+
+        private void morningWorkOutButton_Click(object sender, EventArgs e)
+        {
+            var warmUp = TrainDay.GetMorningWorkOut();
+            var mornWO = new WarmUpForm(warmUp, this);
+            mornWO.GetWorkOut();
         }
     }
 }

@@ -31,19 +31,22 @@ namespace TrainWindowsFormsApp
 
         public void ShowText(string message)
         {
-            var label = new Label()
+            if (message != string.Empty)
             {
-                Location = new Point(0, 0),
-                Size = new Size(Height, Width),  // Размер лейбла во всю форму
-                AutoSize = true,
+                var label = new Label()
+                {
+                    Location = new Point(0, 0),
+                    Size = new Size(Height, Width),  // Размер лейбла во всю форму
+                    AutoSize = true,
 
-                BackColor = Color.Ivory,
-                Font = new Font("Microsoft Sans Serif", 25F, FontStyle.Bold, GraphicsUnit.Point, (byte)204),
-                Text = message,
-                TextAlign = ContentAlignment.TopLeft
-            };
-            Controls.Add(label);
-            ShowDialog();
+                    BackColor = Color.Ivory,
+                    Font = new Font("Microsoft Sans Serif", 25F, FontStyle.Bold, GraphicsUnit.Point, (byte)204),
+                    Text = message,
+                    TextAlign = ContentAlignment.TopLeft
+                };
+                Controls.Add(label);
+                ShowDialog();
+            }
         }
     }
 }

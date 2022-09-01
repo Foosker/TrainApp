@@ -34,6 +34,8 @@ namespace TrainWindowsFormsApp
             this.QuitButton = new System.Windows.Forms.Button();
             this.warmUpButton = new System.Windows.Forms.Button();
             this.hitchButton = new System.Windows.Forms.Button();
+            this.morningWorkOutButton = new System.Windows.Forms.Button();
+            this.PlusTrainButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // RegularTrainButton
@@ -42,11 +44,11 @@ namespace TrainWindowsFormsApp
             this.RegularTrainButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RegularTrainButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RegularTrainButton.ForeColor = System.Drawing.Color.MediumBlue;
-            this.RegularTrainButton.Location = new System.Drawing.Point(15, 560);
+            this.RegularTrainButton.Location = new System.Drawing.Point(12, 560);
             this.RegularTrainButton.Name = "RegularTrainButton";
-            this.RegularTrainButton.Size = new System.Drawing.Size(250, 180);
+            this.RegularTrainButton.Size = new System.Drawing.Size(165, 180);
             this.RegularTrainButton.TabIndex = 0;
-            this.RegularTrainButton.Text = "Тренировка";
+            this.RegularTrainButton.Text = "Треня";
             this.RegularTrainButton.UseVisualStyleBackColor = false;
             this.RegularTrainButton.Click += new System.EventHandler(this.RegularTrainButton_Click);
             // 
@@ -57,7 +59,7 @@ namespace TrainWindowsFormsApp
             this.FastTrainButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.FastTrainButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FastTrainButton.ForeColor = System.Drawing.Color.DarkRed;
-            this.FastTrainButton.Location = new System.Drawing.Point(735, 560);
+            this.FastTrainButton.Location = new System.Drawing.Point(738, 560);
             this.FastTrainButton.Name = "FastTrainButton";
             this.FastTrainButton.Size = new System.Drawing.Size(250, 180);
             this.FastTrainButton.TabIndex = 1;
@@ -106,12 +108,41 @@ namespace TrainWindowsFormsApp
             this.hitchButton.UseVisualStyleBackColor = false;
             this.hitchButton.Click += new System.EventHandler(this.hitchButton_Click);
             // 
+            // morningWorkOutButton
+            // 
+            this.morningWorkOutButton.BackColor = System.Drawing.SystemColors.Info;
+            this.morningWorkOutButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.morningWorkOutButton.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.morningWorkOutButton.Location = new System.Drawing.Point(392, 409);
+            this.morningWorkOutButton.Name = "morningWorkOutButton";
+            this.morningWorkOutButton.Size = new System.Drawing.Size(229, 139);
+            this.morningWorkOutButton.TabIndex = 4;
+            this.morningWorkOutButton.Text = "Зарядка";
+            this.morningWorkOutButton.UseVisualStyleBackColor = false;
+            this.morningWorkOutButton.Click += new System.EventHandler(this.morningWorkOutButton_Click);
+            // 
+            // PlusTrainButton
+            // 
+            this.PlusTrainButton.BackColor = System.Drawing.Color.LightCyan;
+            this.PlusTrainButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.PlusTrainButton.Font = new System.Drawing.Font("Segoe Print", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PlusTrainButton.ForeColor = System.Drawing.Color.MediumBlue;
+            this.PlusTrainButton.Location = new System.Drawing.Point(200, 560);
+            this.PlusTrainButton.Name = "PlusTrainButton";
+            this.PlusTrainButton.Size = new System.Drawing.Size(71, 180);
+            this.PlusTrainButton.TabIndex = 5;
+            this.PlusTrainButton.Text = "++";
+            this.PlusTrainButton.UseVisualStyleBackColor = false;
+            this.PlusTrainButton.Click += new System.EventHandler(this.PlusTrainButton_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1000, 1200);
+            this.Controls.Add(this.PlusTrainButton);
+            this.Controls.Add(this.morningWorkOutButton);
             this.Controls.Add(this.hitchButton);
             this.Controls.Add(this.warmUpButton);
             this.Controls.Add(this.QuitButton);
@@ -125,11 +156,12 @@ namespace TrainWindowsFormsApp
         }
 
         #endregion
-
-        private System.Windows.Forms.Button RegularTrainButton;
         private System.Windows.Forms.Button FastTrainButton;
         private System.Windows.Forms.Button QuitButton;
         private System.Windows.Forms.Button warmUpButton;
         private System.Windows.Forms.Button hitchButton;
+        private System.Windows.Forms.Button morningWorkOutButton;
+        private System.Windows.Forms.Button PlusTrainButton;
+        public System.Windows.Forms.Button RegularTrainButton;
     }
 }

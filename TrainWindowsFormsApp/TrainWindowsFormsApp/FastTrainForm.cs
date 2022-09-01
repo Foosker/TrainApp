@@ -25,7 +25,7 @@ namespace TrainWindowsFormsApp
         "Грудь базовые",
         "Грудь Изол.",
         "Широчайшие",
-        "Лопатки",
+        "Шея",
         "Трапеции",
         "Передние дельты",
         "Средние дельты",
@@ -34,7 +34,7 @@ namespace TrainWindowsFormsApp
         "Трицепсы",
         "Предплечья",
         "Квадрицепсы",
-        "Быцепсы бедра",
+        "Бицепсы бедра",
         "Пресс",
         "Разгиб. спины",
         "Икры",
@@ -45,19 +45,14 @@ namespace TrainWindowsFormsApp
 
         private List<Exercise> exercisesData;
         private Button[] exercisesButtons = new Button[19];
-
-        private List<Label> nameLabels;         // Лейблы с именами упражнений,
-        private List<Label> loadLabels;         // лейблы с нагрузкой - нужны для удаления из Controls,
-        private List<Button> repeatButtons;     // кнопки с повторениями - увеличенивают повторов на 1,
-        private List<Button> megaPlusButtons;   // кнопки с увеличением повторов на 2.
-
-        List<int> indexesMuscles;  // Список индексов для подсветки тренируемых групп мышц
+        private List<Label> nameLabels;     // Лейблы с именами упражнений,
+        private List<Label> loadLabels;     // лейблы с нагрузкой - нужны для удаления из Controls,
+        private List<Label> repeatLabels;   // текст-бокс
 
         public FastTrainForm()
         {
             InitializeComponent();
         }
-
         private void FastTrainForm_Load(object sender, EventArgs e)
         {
             // Установка координат кнопок Сохранение, Назад и Выход
@@ -67,23 +62,17 @@ namespace TrainWindowsFormsApp
             QuitButton.Location = new Point(x: formWidth - QuitButton.Width - 25, y: formHeight - QuitButton.Height - 25);
             // Кнопка Назад: X = координаты кнопки Выход, Y = координаты кнопки Выход - высота кнопки Назад - заданный отступ.
             BackButton.Location = new Point(x: QuitButton.Location.X, y: QuitButton.Location.Y - BackButton.Height - 10);
-            // Кнопка Сохранить: тоже самое относительно кнопки Назад.
-            SaveButton.Location = new Point(x: BackButton.Location.X, y: BackButton.Location.Y - SaveButton.Height - 10);
-            SaveButton.Visible = false;  // Отключение кнопки сохранить пока не будет выбрана группа мышц
-            // Кнопка Увеличения прогресса: таже херня, относительно предыдущей кнопки
-            ProgressPlusButton.Location = new Point(x: SaveButton.Location.X, y: SaveButton.Location.Y - ProgressPlusButton.Height - 10);
-            /*
+            
             arrayExercises = (ExercisesType[])Enum.GetValues(typeof(ExercisesType));
-            numberExercises = arrayExercises.Length;
+            numberExercises = arrayExercises.Length - 1;
             
             InitMap();
-            ShowNextTrain();
         }
 
         private void InitMap()
         {
             var indentLeftEdge = 10;
-            var width = 150;
+            var width = 200;
 
             for (int i = 0; i < numberExercises; i++)
             {                
@@ -92,111 +81,62 @@ namespace TrainWindowsFormsApp
                     indentLeftEdge += width;
                 }
 
-                var button = TrainCommon.CreateButton(this, indentLeftEdge, i % 6, width, ExercisesTypeRus[i]);
+                var button = TrainCommon.CreateButton(this, indentLeftEdge, i % 6, width, 100, ExercisesTypeRus[i]);
                 exercisesButtons[i] = button;
                 button.Click += ExercisesButton_Click;
             }
         }
-
-        private void ShowNextTrain()
-        {
-            // Сначала получает массив мышечных групп на следующей тренировке, потом вибирает уникальные эллементы массива
-            var nextTrain = TrainDay.GetTrain(TrainCommon.GetProgress()).Distinct().ToArray();
-            // Список с индексами мышц, что будут тренироваться на следующей тренировке, в массиве мышц
-            indexesMuscles = new List<int>();
-
-            foreach (ExercisesType muscle in nextTrain)
-            {
-                // Находим индекс мышцы в массиве
-                var index = Array.IndexOf(arrayExercises, muscle);
-                // Добавляем в список индексов
-                indexesMuscles.Add(index);
-            }
-            // Проходим по каждому индексу в их списке и меняем цвет кнопки и её шрифта
-            foreach (int index in indexesMuscles)
-            {
-                exercisesButtons[index].BackColor = Color.LightSlateGray;
-                exercisesButtons[index].ForeColor = Color.Ivory;            
-            }
-        }
-
         private void HideOrShowAllMenuButtons()
         {
             menuMode = !menuMode;
-            SaveButton.Visible = !SaveButton.Visible;  
 
             foreach (Button b in exercisesButtons)
             {
                 b.Visible = !b.Visible;
             }
         }
-
         private void ClearExercises()
         {
-            for (int i = 0; i < nameLabels.Count; i++)
-            {
-                Controls.Remove(nameLabels[i]);
-                Controls.Remove(loadLabels[i]);
-                Controls.Remove(repeatButtons[i]);
-                Controls.Remove(megaPlusButtons[i]);
-            }
+            nameLabels.ForEach(x => Controls.Remove(x));
+            loadLabels.ForEach(x => Controls.Remove(x));
+            repeatLabels.ForEach(x => Controls.Remove(x));
             HideOrShowAllMenuButtons();
         }
-
         private void ExercisesButton_Click(object sender, EventArgs e)
         {
             var button = sender as Button;
             var index = Array.IndexOf(exercisesButtons, button);
-
+            
             HideOrShowAllMenuButtons();
 
             exercisesData = new List<Exercise>();
             nameLabels = new List<Label>();
             loadLabels = new List<Label>();
-            repeatButtons = new List<Button>();
-            megaPlusButtons = new List<Button>();
+            repeatLabels = new List<Label>();
 
             pathExercisesPath = "ExercisesType/" + Convert.ToString(arrayExercises[index]) + ".json";
             exercisesData = TrainCommon.GetDeserializedData(pathExercisesPath);
 
-            for (int i = 0; i < exercisesData.Count; i++)
+            var row = 0;
+            for (int i = 0; i < exercisesData.Count; i++, row++)
             {
-                var nameLabel = TrainCommon.CreateLabel(this, 10, i, 500, exercisesData[i].Name);
+                var nameLabel = TrainCommon.CreateLabel(this, 10, row, 650, 70, exercisesData[i].Name);
                 nameLabels.Add(nameLabel);
                 nameLabel.Click += NameLabel_Click;
 
-                if (TrainCommon.option == "strength")
+                for (int j = 0; j < exercisesData[i].typesTrainingList.Count; j++, row++)
                 {
-                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, (string)exercisesData[i].Strength["load"]);
+                    var loadLabel = TrainCommon.CreateLabel(this, 685, row, 170, 70, exercisesData[i].typesTrainingList[j]["load"]);
                     loadLabels.Add(loadLabel);
 
-                    var repeatButton = TrainCommon.CreateButton(this, 730, i, 75, Convert.ToString(exercisesData[i].Strength["repeats"]));
-                    repeatButton.Font = new Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, 204);
-                    repeatButtons.Add(repeatButton);
-                    repeatButton.Click += RepeatButton_Click;
+                    if (exercisesData[i].typesTrainingList[j].ContainsKey("repeats"))
+                    {
+                        var repeatLabel= TrainCommon.CreateLabel(this, 880, row, 100, 70, exercisesData[i].typesTrainingList[j]["repeats"]);
+                        repeatLabels.Add(repeatLabel);
+                    }
                 }
-                else if (TrainCommon.option == "stamina")
-                {
-                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, (string)exercisesData[i].Stamina["load"]);
-                    loadLabels.Add(loadLabel);
-
-                    var repeatButton = TrainCommon.CreateButton(this, 730, i, 75, Convert.ToString(exercisesData[i].Stamina["repeats"]));
-                    repeatButton.Font = new Font("Bahnschrift", 20F, FontStyle.Regular, GraphicsUnit.Point, 204);
-                    repeatButtons.Add(repeatButton);
-                    repeatButton.Click += RepeatButton_Click;
-                }
-                else
-                {
-                    var loadLabel = TrainCommon.CreateLabel(this, 520, i, 200, exercisesData[i].Tabata["load"]);
-                    loadLabels.Add(loadLabel);
-                }
-
-                var megaPlusButton = TrainCommon.CreateButton(this, 815, i, 50, "💣");
-                megaPlusButtons.Add(megaPlusButton);
-                megaPlusButton.Click += MegaPlusButton_Click;
             }
         }
-
         private void NameLabel_Click(object sender, EventArgs e)
         {
             var nameLabel = sender as Label;
@@ -205,79 +145,14 @@ namespace TrainWindowsFormsApp
             var remark = new MyMessageBox();
             remark.ShowText(exercisesData[index].Remark);
         }
-
-        private void RepeatButton_Click(object sender, EventArgs e)
-        {
-            var repeatButton = sender as Button;
-            repeatButton.BackColor = Color.GreenYellow;
-            repeatButton.Enabled = false;
-
-            var index = repeatButtons.IndexOf(repeatButton);
-
-            var megaPlusButton = megaPlusButtons[index];
-            megaPlusButton.Text = "❌";
-            megaPlusButton.BackColor = Color.IndianRed;
-            megaPlusButton.Enabled = false;
-
-            var newValue = Convert.ToInt32(repeatButton.Text) + 1;
-            repeatButton.Text = Convert.ToString(newValue);
-        }
-
-        private void MegaPlusButton_Click(object sender, EventArgs e)
-        {
-
-            var megaPlusButton = sender as Button;
-            megaPlusButton.Text = "💥";
-            megaPlusButton.BackColor = Color.Gold;
-            megaPlusButton.Enabled = false;
-
-            var index = megaPlusButtons.IndexOf(megaPlusButton);
-
-            var repeatButton = repeatButtons[index];
-            repeatButton.BackColor = Color.Gold;
-            repeatButton.Enabled = false;
-
-            var newValue = Convert.ToInt32(repeatButton.Text) + 2;
-            repeatButton.Text = Convert.ToString(newValue);*/
-        }
-
-        private void ProgressPlusButton_Click(object sender, EventArgs e)
-        {// Меняет значение файла Progress на +1
-            // Меняем цвета выделенных прежде кнопок на изначальные
-            /*foreach (int index in indexesMuscles)
-            {
-                exercisesButtons[index].BackColor = TrainCommon.buttonsColor;
-                exercisesButtons[index].ForeColor = SystemColors.ControlText;
-            }
-            TrainCommon.SaveProgress(); // Изменяем и сохраняем значение прогресса
-            ShowNextTrain();            // и выделяем эллементы по новому значению прогресса*/
-        }
-
-        private void SaveButton_Click(object sender, EventArgs e)
-        {
-            /*var serializedData = JsonConvert.SerializeObject(exercisesData, Formatting.Indented);
-
-            FileProvider.Save(pathExercisesPath, serializedData);
-
-            ClearExercises();*/
-        }
-
         private void BackButton_Click(object sender, EventArgs e)
         {
-           /*if (menuMode)
-            {
-                Close();
-            }
-            else
-            {
-                ClearExercises();
-            }*/
+           if (menuMode) Close();
+           else  ClearExercises();        
         }
-
         private void QuitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-        
+        }        
     }
 }

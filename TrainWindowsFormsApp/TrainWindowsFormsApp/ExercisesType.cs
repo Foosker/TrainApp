@@ -10,7 +10,7 @@ namespace TrainWindowsFormsApp
         ChestBase,
         ChestIsol,
         Latissimus,
-        Scapula,
+        Neck,
         Trapezius,
         DeltoidFront,
         DeltoidMid,

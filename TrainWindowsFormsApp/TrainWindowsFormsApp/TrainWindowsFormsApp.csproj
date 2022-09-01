@@ -98,6 +98,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SetNewLoadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetNewLoadForm.Designer.cs">
+      <DependentUpon>SetNewLoadForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SetNewProgramForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,16 +133,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetNewLoadForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetNewLoadForm.Designer.cs">
-      <DependentUpon>SetNewLoadForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="TrainCommon.cs" />
     <Compile Include="TrainDay.cs" />
     <EmbeddedResource Include="FastTrainForm.resx">
       <DependentUpon>FastTrainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetNewLoadForm.resx">
+      <DependentUpon>SetNewLoadForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SetNewProgramForm.resx">
       <DependentUpon>SetNewProgramForm.cs</DependentUpon>
@@ -154,9 +157,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetNewLoadForm.resx">
-      <DependentUpon>SetNewLoadForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="bin\Debug\ExercisesType\BackExtensor.json" />
     <None Include="bin\Debug\ExercisesType\Biceps.json" />
